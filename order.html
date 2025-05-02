@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Order - ScoopNest</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <h2>Place Your Order</h2>
+  <form action="order.php" method="POST">
+    <label>Name:</label>
+    <input type="text" name="name" required />
+
+    <label>Flavor:</label>
+    <select name="flavor" required>
+      <option>Vanilla</option>
+      <option>Chocolate</option>
+      <option>Strawberry</option>
+      <option>Mango</option>
+    </select>
+
+    <label>Quantity:</label>
+    <input type="number" name="quantity" min="1" required />
+
+    <button type="submit">Submit Order</button>
+  </form>
+</body>
+</html>
