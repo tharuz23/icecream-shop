@@ -38,7 +38,6 @@ $result = $conn->query($sql);
         }
         a {
             text-decoration: none;
-            margin-right: 15px;
         }
         a:hover {
             text-decoration: underline;
@@ -78,6 +77,8 @@ $result = $conn->query($sql);
             box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
             transition: background-color 0.3s ease;
             font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 20px;
         }
         .btn-back:hover {
             background-color: #e68463;
@@ -88,7 +89,6 @@ $result = $conn->query($sql);
 <body>
   <div class="container">
     <h2>All Orders</h2>
-    <a href="admin_panel.php" class="btn btn-back">Back to Admin Panel</a>
     <table class="table table-striped table-bordered mt-3">
       <thead>
         <tr>
@@ -109,6 +109,8 @@ $result = $conn->query($sql);
         <?php } ?>
       </tbody>
     </table>
+
+    <a href="admin_panel.php" class="btn-back">Back to Admin Panel</a>
     <a href="logout.php" class="logout-btn">Logout</a>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
