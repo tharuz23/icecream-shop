@@ -1,13 +1,10 @@
 <?php
 session_start();
-
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header('Location: admin_login.php');
     exit();
 }
-
 include 'db.php';
-
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
     $stmt = $conn->prepare("UPDATE orders SET status = 'completed' WHERE id = ?");
@@ -17,9 +14,14 @@ if (isset($_GET['id'])) {
     header('Location: admin_orders.php');
     exit();
 }
-
 $sql = "SELECT * FROM orders ORDER BY id DESC";
 $result = $conn->query($sql);
+$countQuery = "SELECT COUNT(*) AS pending_count FROM orders WHERE status IS NULL OR status != 'completed'";
+$countResult = $conn->query($countQuery);
+$pendingCount = 0;
+if ($countResult && $countRow = $countResult->fetch_assoc()) {
+    $pendingCount = $countRow['pending_count'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +46,15 @@ $result = $conn->query($sql);
         h2 {
             color: #d6336c;
             font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .pending-bar {
+            background-color: rgba(0, 200, 100, 0.2);
+            color: #146c43;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 8px;
             margin-bottom: 20px;
         }
         a {
@@ -98,7 +109,7 @@ $result = $conn->query($sql);
             color: white;
         }
         .btn-complete {
-            background-color: #ff69b4;
+            background-color: #e68463;
             color: white;
             border: none;
             padding: 5px 12px;
@@ -138,6 +149,7 @@ $result = $conn->query($sql);
 <body>
   <div class="container">
     <h2>All Orders</h2>
+    <div class="pending-bar"><?= $pendingCount ?> order(s) are pending</div>
     <table class="table table-striped table-bordered mt-3">
       <thead>
         <tr>
