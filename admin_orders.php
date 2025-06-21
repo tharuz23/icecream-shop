@@ -28,6 +28,8 @@ $result = $conn->query($sql);
             padding: 30px;
             box-shadow: 0 8px 15px rgba(255, 182, 193, 0.3);
             margin-top: 50px;
+            position: relative;
+            min-height: 600px;
         }
         h2 {
             color: #d6336c;
@@ -49,13 +51,44 @@ $result = $conn->query($sql);
         table tbody tr:hover {
             background: #ffe3ec;
         }
+        .logout-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            box-shadow: 0 4px 12px rgba(255, 69, 58, 0.6);
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: 700;
+            z-index: 1050;
+            background-color: #ff6f61;
+            border: none;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .logout-btn:hover {
+            background-color: #e65c50;
+        }
+        .btn-back {
+            background-color: #ff9f80;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .btn-back:hover {
+            background-color: #e68463;
+            color: white;
+        }
     </style>
 </head>
 <body>
   <div class="container">
     <h2>All Orders</h2>
-    <a href="admin_panel.php" class="btn btn-outline-primary btn-sm">Back to Admin Panel</a>
-    <a href="logout.php" class="btn btn-outline-danger btn-sm">Logout</a>
+    <a href="admin_panel.php" class="btn btn-back">Back to Admin Panel</a>
     <table class="table table-striped table-bordered mt-3">
       <thead>
         <tr>
@@ -76,6 +109,7 @@ $result = $conn->query($sql);
         <?php } ?>
       </tbody>
     </table>
+    <a href="logout.php" class="logout-btn">Logout</a>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
