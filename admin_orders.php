@@ -98,7 +98,7 @@ $result = $conn->query($sql);
             color: white;
         }
         .btn-complete {
-            background-color: #28a745;
+            background-color: #ff69b4;
             color: white;
             border: none;
             padding: 5px 12px;
@@ -110,12 +110,12 @@ $result = $conn->query($sql);
             margin-left: 5px;
         }
         .btn-complete:hover {
-            background-color: #218838;
+            background-color: #ff69b4;
             color: white;
             text-decoration: none;
         }
         .btn-completed-disabled {
-            background-color: #28a745;
+            background-color: #ff69b4;
             color: white;
             border: none;
             padding: 5px 12px;
