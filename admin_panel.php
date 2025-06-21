@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 }
 
 
-include 'db_connect.php';
+include 'db.php';
 
 
 $sql = "SELECT * FROM icecream_items";
