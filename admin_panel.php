@@ -65,6 +65,8 @@ if (!$result) {
             border: none;
             color: #fff;
             font-weight: 600;
+            padding: 12px 24px;
+            font-size: 1.05rem;
         }
         .btn-success:hover {
             background-color: #e68463;
@@ -128,7 +130,7 @@ if (!$result) {
           <th>Name</th>
           <th>Flavor</th>
           <th>Price</th>
-          <th>Actions</th>
+          <th style="width: 130px;">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -148,7 +150,7 @@ if (!$result) {
     </table>
 
     <div class="add-btn-wrapper">
-      <a href="add_item.php" class="btn btn-success">Add New Ice Cream Item</a>
+      <a href="add_item.php" class="btn btn-success btn-lg">Add New Ice Cream Item</a>
     </div>
 
     <a href="logout.php" class="btn logout-btn">Logout</a>
