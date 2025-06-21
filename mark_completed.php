@@ -1,18 +1,12 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: admin_login.php');
-    exit();
-}
-
 include 'db.php';
 
-if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    $sql = "UPDATE orders SET status='completed' WHERE id=$id";
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
+    $orderId = intval($_POST['order_id']);
+    $sql = "UPDATE orders SET status='completed' WHERE id=$orderId";
     $conn->query($sql);
 }
 
 header('Location: admin_orders.php');
 exit();
-?>
