@@ -1,12 +1,9 @@
 <?php
 session_start();
-
-
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header('Location: admin_login.php');
     exit();
 }
-
 include 'db.php';
 
 $error = '';
@@ -17,7 +14,6 @@ if (!isset($_GET['id'])) {
 }
 
 $id = intval($_GET['id']);
-
 
 $stmt = $conn->prepare("SELECT * FROM icecream_items WHERE id = ?");
 $stmt->bind_param("i", $id);
@@ -43,10 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $stmt = $conn->prepare("UPDATE icecream_items SET name = ?, flavor = ?, price = ? WHERE id = ?");
         $stmt->bind_param("ssdi", $name, $flavor, $price, $id);
-
         if ($stmt->execute()) {
             $success = "Item updated successfully!";
-            
             $item['name'] = $name;
             $item['flavor'] = $flavor;
             $item['price'] = $price;
@@ -62,28 +56,118 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
 <head>
     <title>Edit Ice Cream Item - ScoopNest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #fff0f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            background: #fff8f0;
+            border-radius: 12px;
+            padding: 40px;
+            margin-top: 100px;
+            max-width: 600px;
+            box-shadow: 0 8px 15px rgba(255, 182, 193, 0.3);
+        }
+        h2 {
+            color: #d6336c;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #d6336c;
+        }
+        .form-control {
+            border-radius: 8px;
+        }
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .btn-update {
+            background-color: #ff69b4;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 8px;
+        }
+        .btn-update:hover {
+            background-color: #e68463;
+        }
+        .btn-back {
+            background-color: #ff9f80;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+            text-decoration: none;
+            align-self: flex-start;
+        }
+        .btn-back:hover {
+            background-color: #e68463;
+            color: white;
+            text-decoration: none;
+        }
+        .msg-success {
+            background-color: #fff8f0;
+            color: rgb(12, 125, 72);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border: 1px solid #fff8f0;
+        }
+        .msg-error {
+            background-color: rgba(255, 0, 0, 0.1);
+            color: #b91c1c;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid #f5c2c7;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <h2>Edit Ice Cream Item</h2>
-    <a href="admin_panel.php">Back to Admin Panel</a><br><br>
+    <div class="container">
+        <h2>Edit Ice Cream Item</h2>
 
-    <?php if ($error): ?>
-        <p style="color:red;"><?php echo $error; ?></p>
-    <?php elseif ($success): ?>
-        <p style="color:green;"><?php echo $success; ?></p>
-    <?php endif; ?>
+        <?php if ($error): ?>
+            <div class="msg-error"><?= $error ?></div>
+        <?php elseif ($success): ?>
+            <div class="msg-success"><?= $success ?></div>
+        <?php endif; ?>
 
-    <form method="post" action="">
-        Name:<br>
-        <input type="text" name="name" value="<?php echo htmlspecialchars($item['name']); ?>" required><br><br>
+        <form method="post" action="">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($item['name']) ?>" required>
+            </div>
 
-        Flavor:<br>
-        <input type="text" name="flavor" value="<?php echo htmlspecialchars($item['flavor']); ?>" required><br><br>
+            <div class="mb-3">
+                <label class="form-label">Flavor</label>
+                <input type="text" name="flavor" class="form-control" value="<?= htmlspecialchars($item['flavor']) ?>" required>
+            </div>
 
-        Price:<br>
-        <input type="text" name="price" value="<?php echo $item['price']; ?>" required><br><br>
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input type="text" name="price" class="form-control" value="<?= $item['price'] ?>" required>
+            </div>
 
-        <input type="submit" value="Update Item">
-    </form>
+            <div class="form-footer">
+                <a href="admin_panel.php" class="btn-back">Back to Admin Panel</a>
+                <button type="submit" class="btn btn-update">Update Item</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
