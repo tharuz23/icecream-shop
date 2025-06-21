@@ -10,7 +10,6 @@ include 'db.php';
 
 $sql = "SELECT * FROM orders ORDER BY id DESC";
 $result = $conn->query($sql);
-$order_count = $result->num_rows;
 ?>
 
 <!DOCTYPE html>
@@ -35,22 +34,7 @@ $order_count = $result->num_rows;
         h2 {
             color: #d6336c;
             font-weight: 700;
-            margin-bottom: 10px;
-        }
-        .info-message {
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 10px 15px;
             margin-bottom: 20px;
-            border-radius: 8px;
-        }
-        .no-orders {
-            background-color: rgba(255, 99, 132, 0.15);
-            color: #ff4b6e;
-        }
-        .has-orders {
-            background-color: rgba(144, 238, 144, 0.2);
-            color: #2e7d32;
         }
         a {
             text-decoration: none;
@@ -62,12 +46,6 @@ $order_count = $result->num_rows;
             background: #ff85a2;
             color: #fff;
             font-weight: 600;
-        }
-        .pending-row {
-            background-color: rgba(255, 99, 132, 0.15);
-        }
-        .completed-row {
-            background-color: rgba(144, 238, 144, 0.2);
         }
         table tbody tr:hover {
             background: #ffe3ec;
@@ -106,19 +84,17 @@ $order_count = $result->num_rows;
             background-color: #e68463;
             color: white;
         }
+        .pending-row {
+            background-color: rgba(255, 99, 71, 0.1);
+        }
+        .completed-row {
+            background-color: rgba(144, 238, 144, 0.2);
+        }
     </style>
 </head>
 <body>
   <div class="container">
     <h2>All Orders</h2>
-
-    <?php if ($order_count > 0): ?>
-      <div class="info-message has-orders">✅ Showing <?= $order_count ?> order<?= $order_count > 1 ? 's' : '' ?>.</div>
-    <?php else: ?>
-      <div class="info-message no-orders">🚫 No orders available yet.</div>
-    <?php endif; ?>
-
-    <?php if ($order_count > 0): ?>
     <table class="table table-striped table-bordered mt-3">
       <thead>
         <tr>
@@ -131,20 +107,25 @@ $order_count = $result->num_rows;
       </thead>
       <tbody>
         <?php while ($row = $result->fetch_assoc()) {
-            $status = isset($row['status']) ? strtolower($row['status']) : 'pending';
-            $rowClass = $status === 'completed' ? 'completed-row' : 'pending-row';
+            $status = strtolower($row['status'] ?? 'pending');
+            $row_class = ($status === 'completed') ? 'completed-row' : 'pending-row';
         ?>
-        <tr class="<?= $rowClass ?>">
+        <tr class="<?= $row_class ?>">
           <td><?= $row['id']; ?></td>
           <td><?= htmlspecialchars($row['name']); ?></td>
           <td><?= htmlspecialchars($row['flavor']); ?></td>
           <td><?= $row['quantity']; ?></td>
-          <td><?= ucfirst($status); ?></td>
+          <td>
+            <?= ucfirst($status); ?>
+            <?php if ($status !== 'completed'): ?>
+              <br>
+              <a href="mark_completed.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-success mt-1">Mark as Completed</a>
+            <?php endif; ?>
+          </td>
         </tr>
         <?php } ?>
       </tbody>
     </table>
-    <?php endif; ?>
 
     <a href="admin_panel.php" class="btn-back">Back to Admin Panel</a>
     <a href="logout.php" class="logout-btn">Logout</a>
