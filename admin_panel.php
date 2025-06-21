@@ -79,7 +79,7 @@ if (!$result) {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #ff9f80;
+            background-color: #ff69b4;
             border: none;
             color: #fff;
             font-weight: 600;
