@@ -6,7 +6,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 
-include 'db_connect.php';
+include 'db.php';
 
 $sql = "SELECT * FROM orders ORDER BY id DESC";
 $result = $conn->query($sql);
