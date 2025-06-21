@@ -72,7 +72,7 @@ $result = $conn->query($sql);
             padding: 12px 25px;
             font-weight: 700;
             z-index: 1050;
-            background-color: #ff6f61;
+            background-color: #ff69b4;
             border: none;
             color: white;
             transition: background-color 0.3s ease;
