@@ -20,15 +20,14 @@ if (!$result) {
 <html>
 <head>
     <title>Admin Panel - ScoopNest</title>
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: #fff0f6; 
+            background: #fff0f6;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .container {
-            background: #fff8f0; 
+            background: #fff8f0;
             border-radius: 12px;
             padding: 30px;
             box-shadow: 0 8px 15px rgba(255, 182, 193, 0.3);
@@ -36,33 +35,42 @@ if (!$result) {
             min-height: 600px;
         }
         h2, h3 {
-            color: #d6336c; 
+            color: #d6336c;
             font-weight: 700;
         }
         table thead {
-            background: #ff85a2; 
+            background: #ff85a2;
             color: #fff;
             font-weight: 600;
         }
         table tbody tr:hover {
-            background: #ffe3ec; 
+            background: #ffe3ec;
         }
         .btn-primary {
-            background-color: #ff69b4; 
+            background-color: #ff69b4;
             border: none;
         }
         .btn-primary:hover {
-            background-color: #e0559f; 
+            background-color: #e0559f;
         }
-        .btn-danger {
-            background-color: #ff6f61; 
+        .btn-danger, 
+        .btn-warning {
+            background-color: #ff6f61;
             border: none;
+            color: white;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(255, 111, 97, 0.5);
+            transition: background-color 0.3s ease;
         }
-        .btn-danger:hover {
+        .btn-danger:hover, 
+        .btn-warning:hover {
             background-color: #e65c50;
+            color: white;
         }
         .btn-success {
-            background-color: #ff9f80; 
+            background-color: #ff9f80;
             border: none;
             color: #fff;
             font-weight: 600;
@@ -76,7 +84,6 @@ if (!$result) {
         a:hover {
             text-decoration: underline;
         }
-        
         .logout-btn {
             position: fixed;
             bottom: 30px;
@@ -89,34 +96,15 @@ if (!$result) {
             transition: background-color 0.3s ease;
         }
         .logout-btn:hover {
-            background-color: #ff3b2e; 
-        }
-        
-        .btn-warning {
-            background-color: #ffbc00;
-            border: none;
-            color: #2c2c2c;
-            font-weight: 700;
-            padding: 12px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(255, 188, 0, 0.5);
-            transition: background-color 0.3s ease;
-        }
-        .btn-warning:hover {
-            background-color: #e6a500;
-            color: white;
+            background-color: #ff3b2e;
         }
     </style>
 </head>
 <body>
   <div class="container mt-5">
     <h2 class="mb-4">Welcome, Admin!</h2>
-
-    
     <a href="admin_orders.php" class="btn btn-lg btn-warning mb-4">View All Orders</a>
-
     <h3 class="mt-4">Ice Cream Items</h3>
-
     <table class="table table-striped table-bordered mt-3">
       <thead>
         <tr>
@@ -142,14 +130,9 @@ if (!$result) {
         <?php } ?>
       </tbody>
     </table>
-
     <a href="add_item.php" class="btn btn-success mt-3">Add New Ice Cream Item</a>
-
-    
     <a href="logout.php" class="btn btn-danger btn-lg logout-btn">Logout</a>
   </div>
-
-  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
