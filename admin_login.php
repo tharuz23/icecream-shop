@@ -1,8 +1,8 @@
-<!-- admin_login.php -->
+
 <?php
 session_start();
 
-// Check if already logged in, redirect to admin panel
+
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
     header('Location: admin_panel.php');
     exit();
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // For now, hardcode admin credentials (change these later)
+    
     $admin_user = 'admin';
     $admin_pass = 'password123';
 
