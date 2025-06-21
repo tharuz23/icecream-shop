@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 
-include 'db_connect.php';
+include 'db.php';
 
 if (!isset($_GET['id'])) {
     die('ID not specified.');
