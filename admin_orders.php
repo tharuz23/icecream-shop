@@ -8,6 +8,16 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
 include 'db.php';
 
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    $stmt = $conn->prepare("UPDATE orders SET status = 'completed' WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+    header('Location: admin_orders.php');
+    exit();
+}
+
 $sql = "SELECT * FROM orders ORDER BY id DESC";
 $result = $conn->query($sql);
 ?>
@@ -36,26 +46,35 @@ $result = $conn->query($sql);
             font-weight: 700;
             margin-bottom: 20px;
         }
+        a {
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
         table thead {
             background: #ff85a2;
             color: #fff;
             font-weight: 600;
         }
-        table tbody tr:hover {
-            background: #ffe3ec;
+        table tbody tr.pending {
+            background-color: rgba(255, 0, 0, 0.1);
+        }
+        table tbody tr.completed {
+            background-color: rgba(0, 128, 0, 0.1);
         }
         .logout-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #ff69b4;
+            box-shadow: 0 4px 12px rgba(255, 69, 58, 0.6);
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: 700;
+            z-index: 1050;
+            background-color: #ff6f61;
             border: none;
             color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            z-index: 1050;
-            box-shadow: 0 4px 12px rgba(255, 69, 58, 0.6);
             transition: background-color 0.3s ease;
         }
         .logout-btn:hover {
@@ -79,68 +98,69 @@ $result = $conn->query($sql);
             color: white;
         }
         .btn-complete {
-            background-color: #8bc34a;
-            color: white;
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-        }
-        .btn-complete:hover {
-            background-color: #689f38;
-        }
-        .badge-completed {
             background-color: #28a745;
             color: white;
-            font-size: 0.75rem;
-            padding: 5px 10px;
-            border-radius: 10px;
+            border: none;
+            padding: 5px 12px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-complete:hover {
+            background-color: #218838;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-completed-disabled {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            cursor: default;
         }
     </style>
 </head>
 <body>
-<div class="container">
+  <div class="container">
     <h2>All Orders</h2>
     <table class="table table-striped table-bordered mt-3">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Flavor</th>
-                <th>Quantity</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Flavor</th>
+          <th>Quantity</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
         <?php while ($row = $result->fetch_assoc()) {
-            $status = strtolower($row['status']);
-            $bgColor = $status === 'completed' ? '#d4edda' : '#ffe3e3';
+          $status = strtolower($row['status'] ?? 'pending');
+          $rowClass = ($status === 'completed') ? 'completed' : 'pending';
         ?>
-            <tr style="background-color: <?= $bgColor ?>;">
-                <td><?= $row['id']; ?></td>
-                <td><?= htmlspecialchars($row['name']); ?></td>
-                <td><?= htmlspecialchars($row['flavor']); ?></td>
-                <td><?= $row['quantity']; ?></td>
-                <td><?= $status === 'completed' ? '✅' : '❌'; ?></td>
-                <td>
-                    <?php if ($status !== 'completed') { ?>
-                        <form method="post" action="mark_completed.php" style="margin:0;">
-                            <input type="hidden" name="order_id" value="<?= $row['id']; ?>">
-                            <button type="submit" class="btn-complete">Mark as Completed</button>
-                        </form>
-                    <?php } else { ?>
-                        <span class="badge-completed">✅ Completed</span>
-                    <?php } ?>
-                </td>
-            </tr>
+        <tr class="<?= $rowClass ?>">
+          <td><?= $row['id']; ?></td>
+          <td><?= htmlspecialchars($row['name']); ?></td>
+          <td><?= htmlspecialchars($row['flavor']); ?></td>
+          <td><?= $row['quantity']; ?></td>
+          <td>
+            <?php if ($status === 'completed'): ?>
+              <button class="btn-completed-disabled" disabled>Completed</button>
+            <?php else: ?>
+              <a href="admin_orders.php?id=<?= $row['id']; ?>" class="btn-complete">Mark as Completed</a>
+            <?php endif; ?>
+          </td>
+        </tr>
         <?php } ?>
-        </tbody>
+      </tbody>
     </table>
-
     <a href="admin_panel.php" class="btn-back">Back to Admin Panel</a>
     <a href="logout.php" class="logout-btn">Logout</a>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
