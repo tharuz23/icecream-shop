@@ -10,6 +10,7 @@ include 'db.php';
 
 $sql = "SELECT * FROM orders ORDER BY id DESC";
 $result = $conn->query($sql);
+$order_count = $result->num_rows;
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +35,22 @@ $result = $conn->query($sql);
         h2 {
             color: #d6336c;
             font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .info-message {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 15px;
             margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .no-orders {
+            background-color: rgba(255, 99, 132, 0.15);
+            color: #ff4b6e;
+        }
+        .has-orders {
+            background-color: rgba(144, 238, 144, 0.2);
+            color: #2e7d32;
         }
         a {
             text-decoration: none;
@@ -95,6 +111,14 @@ $result = $conn->query($sql);
 <body>
   <div class="container">
     <h2>All Orders</h2>
+
+    <?php if ($order_count > 0): ?>
+      <div class="info-message has-orders">✅ Showing <?= $order_count ?> order<?= $order_count > 1 ? 's' : '' ?>.</div>
+    <?php else: ?>
+      <div class="info-message no-orders">🚫 No orders available yet.</div>
+    <?php endif; ?>
+
+    <?php if ($order_count > 0): ?>
     <table class="table table-striped table-bordered mt-3">
       <thead>
         <tr>
@@ -106,9 +130,9 @@ $result = $conn->query($sql);
         </tr>
       </thead>
       <tbody>
-        <?php while ($row = $result->fetch_assoc()) { 
-          $status = isset($row['status']) ? strtolower($row['status']) : 'pending';
-          $rowClass = $status === 'completed' ? 'completed-row' : 'pending-row';
+        <?php while ($row = $result->fetch_assoc()) {
+            $status = isset($row['status']) ? strtolower($row['status']) : 'pending';
+            $rowClass = $status === 'completed' ? 'completed-row' : 'pending-row';
         ?>
         <tr class="<?= $rowClass ?>">
           <td><?= $row['id']; ?></td>
@@ -120,6 +144,7 @@ $result = $conn->query($sql);
         <?php } ?>
       </tbody>
     </table>
+    <?php endif; ?>
 
     <a href="admin_panel.php" class="btn-back">Back to Admin Panel</a>
     <a href="logout.php" class="logout-btn">Logout</a>
