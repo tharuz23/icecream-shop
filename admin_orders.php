@@ -1,14 +1,12 @@
 <?php
 session_start();
 
-
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header('Location: admin_login.php');
     exit();
 }
 
 include 'db_connect.php';
-
 
 $sql = "SELECT * FROM orders ORDER BY id DESC";
 $result = $conn->query($sql);
