@@ -20,47 +20,49 @@ if (!$result) {
 <html>
 <head>
     <title>Admin Panel - ScoopNest</title>
-    <!-- Bootstrap CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: #fff0f6; /* light pastel pink */
+            background: #fff0f6; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .container {
-            background: #fff8f0; /* soft cream */
+            background: #fff8f0; 
             border-radius: 12px;
             padding: 30px;
             box-shadow: 0 8px 15px rgba(255, 182, 193, 0.3);
+            position: relative;
+            min-height: 600px;
         }
         h2, h3 {
-            color: #d6336c; /* raspberry pink */
+            color: #d6336c; 
             font-weight: 700;
         }
         table thead {
-            background: #ff85a2; /* pastel pink header */
+            background: #ff85a2; 
             color: #fff;
             font-weight: 600;
         }
         table tbody tr:hover {
-            background: #ffe3ec; /* very light pink hover */
+            background: #ffe3ec; 
         }
         .btn-primary {
-            background-color: #ff69b4; /* hot pink */
+            background-color: #ff69b4; 
             border: none;
         }
         .btn-primary:hover {
-            background-color: #e0559f; /* darker pink */
+            background-color: #e0559f; 
         }
         .btn-danger {
-            background-color: #ff6f61; /* coral red */
+            background-color: #ff6f61; 
             border: none;
         }
         .btn-danger:hover {
             background-color: #e65c50;
         }
         .btn-success {
-            background-color: #ff9f80; /* light coral */
+            background-color: #ff9f80; 
             border: none;
             color: #fff;
             font-weight: 600;
@@ -74,13 +76,44 @@ if (!$result) {
         a:hover {
             text-decoration: underline;
         }
+        
+        .logout-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            box-shadow: 0 4px 12px rgba(255, 69, 58, 0.6);
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: 700;
+            z-index: 1050;
+            transition: background-color 0.3s ease;
+        }
+        .logout-btn:hover {
+            background-color: #ff3b2e; 
+        }
+        
+        .btn-warning {
+            background-color: #ffbc00;
+            border: none;
+            color: #2c2c2c;
+            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(255, 188, 0, 0.5);
+            transition: background-color 0.3s ease;
+        }
+        .btn-warning:hover {
+            background-color: #e6a500;
+            color: white;
+        }
     </style>
 </head>
 <body>
   <div class="container mt-5">
     <h2 class="mb-4">Welcome, Admin!</h2>
-    <a href="logout.php" class="btn btn-outline-secondary btn-sm me-2">Logout</a>
-    <a href="admin_orders.php" class="btn btn-outline-info btn-sm">View All Orders</a>
+
+    
+    <a href="admin_orders.php" class="btn btn-lg btn-warning mb-4">View All Orders</a>
 
     <h3 class="mt-4">Ice Cream Items</h3>
 
@@ -111,6 +144,9 @@ if (!$result) {
     </table>
 
     <a href="add_item.php" class="btn btn-success mt-3">Add New Ice Cream Item</a>
+
+    
+    <a href="logout.php" class="btn btn-danger btn-lg logout-btn">Logout</a>
   </div>
 
   
