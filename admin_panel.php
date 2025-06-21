@@ -60,7 +60,7 @@ if (!$result) {
         .btn-danger:hover {
             background-color: #e65c50;
         }
-        .btn-action {
+        .btn-view-orders {
             background-color: #ff9f80;
             border: none;
             color: #fff;
@@ -70,7 +70,7 @@ if (!$result) {
             box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
             transition: background-color 0.3s ease;
         }
-        .btn-action:hover {
+        .btn-view-orders:hover {
             background-color: #e68463;
         }
         .btn-logout {
@@ -90,16 +90,27 @@ if (!$result) {
         .btn-logout:hover {
             background-color: #e68463;
         }
+        .btn-add-item {
+            position: absolute;
+            right: 30px;
+            bottom: 30px;
+            background-color: #ff9f80;
+            color: white;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+            transition: background-color 0.3s ease;
+        }
+        .btn-add-item:hover {
+            background-color: #e68463;
+        }
         a {
             text-decoration: none;
         }
         a:hover {
             text-decoration: underline;
-        }
-        .button-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
         }
     </style>
 </head>
@@ -107,10 +118,7 @@ if (!$result) {
   <div class="container mt-5">
     <h2 class="mb-4">Welcome, Admin!</h2>
 
-    <div class="button-row">
-      <a href="admin_orders.php" class="btn btn-action">View All Orders</a>
-      <a href="add_item.php" class="btn btn-action">Add New Ice Cream Item</a>
-    </div>
+    <a href="admin_orders.php" class="btn btn-view-orders mb-4">View All Orders</a>
 
     <h3 class="mt-4">Ice Cream Items</h3>
 
@@ -139,6 +147,8 @@ if (!$result) {
         <?php } ?>
       </tbody>
     </table>
+
+    <a href="add_item.php" class="btn btn-add-item">Add New Ice Cream Item</a>
 
     <a href="logout.php" class="btn btn-logout">Logout</a>
   </div>
