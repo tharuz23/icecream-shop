@@ -60,6 +60,39 @@ if (!$result) {
         .btn-danger:hover {
             background-color: #e65c50;
         }
+        .btn-success {
+            background-color: #ff9f80;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+        }
+        .btn-success:hover {
+            background-color: #e68463;
+        }
+        a {
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .logout-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #ff9f80;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(255, 69, 58, 0.6);
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            z-index: 1050;
+            transition: background-color 0.3s ease;
+        }
+        .logout-btn:hover {
+            background-color: #e68463;
+        }
         .btn-view-orders {
             background-color: #ff9f80;
             border: none;
@@ -73,44 +106,10 @@ if (!$result) {
         .btn-view-orders:hover {
             background-color: #e68463;
         }
-        .btn-logout {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #ff9f80;
-            color: white;
-            font-weight: 700;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            box-shadow: 0 4px 12px rgba(255, 153, 102, 0.6);
-            transition: background-color 0.3s ease;
-            z-index: 1050;
-        }
-        .btn-logout:hover {
-            background-color: #e68463;
-        }
-        .btn-add-item {
-            position: absolute;
-            right: 30px;
-            bottom: 30px;
-            background-color: #ff9f80;
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 8px;
-            border: none;
-            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
-            transition: background-color 0.3s ease;
-        }
-        .btn-add-item:hover {
-            background-color: #e68463;
-        }
-        a {
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
+        .add-btn-wrapper {
+            display: flex;
+            justify-content: end;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -118,7 +117,7 @@ if (!$result) {
   <div class="container mt-5">
     <h2 class="mb-4">Welcome, Admin!</h2>
 
-    <a href="admin_orders.php" class="btn btn-view-orders mb-4">View All Orders</a>
+    <a href="admin_orders.php" class="btn btn-lg btn-view-orders mb-4">View All Orders</a>
 
     <h3 class="mt-4">Ice Cream Items</h3>
 
@@ -148,9 +147,11 @@ if (!$result) {
       </tbody>
     </table>
 
-    <a href="add_item.php" class="btn btn-add-item">Add New Ice Cream Item</a>
+    <div class="add-btn-wrapper">
+      <a href="add_item.php" class="btn btn-success">Add New Ice Cream Item</a>
+    </div>
 
-    <a href="logout.php" class="btn btn-logout">Logout</a>
+    <a href="logout.php" class="btn logout-btn">Logout</a>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
