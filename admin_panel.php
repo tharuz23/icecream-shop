@@ -22,6 +22,59 @@ if (!$result) {
     <title>Admin Panel - ScoopNest</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #fff0f6; /* light pastel pink */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            background: #fff8f0; /* soft cream */
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 15px rgba(255, 182, 193, 0.3);
+        }
+        h2, h3 {
+            color: #d6336c; /* raspberry pink */
+            font-weight: 700;
+        }
+        table thead {
+            background: #ff85a2; /* pastel pink header */
+            color: #fff;
+            font-weight: 600;
+        }
+        table tbody tr:hover {
+            background: #ffe3ec; /* very light pink hover */
+        }
+        .btn-primary {
+            background-color: #ff69b4; /* hot pink */
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #e0559f; /* darker pink */
+        }
+        .btn-danger {
+            background-color: #ff6f61; /* coral red */
+            border: none;
+        }
+        .btn-danger:hover {
+            background-color: #e65c50;
+        }
+        .btn-success {
+            background-color: #ff9f80; /* light coral */
+            border: none;
+            color: #fff;
+            font-weight: 600;
+        }
+        .btn-success:hover {
+            background-color: #e68463;
+        }
+        a {
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
   <div class="container mt-5">
@@ -32,7 +85,7 @@ if (!$result) {
     <h3 class="mt-4">Ice Cream Items</h3>
 
     <table class="table table-striped table-bordered mt-3">
-      <thead class="table-dark">
+      <thead>
         <tr>
           <th>ID</th>
           <th>Name</th>
@@ -60,7 +113,7 @@ if (!$result) {
     <a href="add_item.php" class="btn btn-success mt-3">Add New Ice Cream Item</a>
   </div>
 
-  <!-- Bootstrap JS Bundle -->
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
