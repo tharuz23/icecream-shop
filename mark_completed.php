@@ -1,12 +1,7 @@
-<?php
-session_start();
-include 'db.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
-    $orderId = intval($_POST['order_id']);
-    $sql = "UPDATE orders SET status='completed' WHERE id=$orderId";
-    $conn->query($sql);
-}
-
-header('Location: admin_orders.php');
-exit();
+<td>
+  <?php if ($status === 'completed'): ?>
+    <button class="btn btn-success btn-sm" disabled>Completed</button>
+  <?php else: ?>
+    <a href="mark_completed.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-success">Mark as Completed</a>
+  <?php endif; ?>
+</td>
