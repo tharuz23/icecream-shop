@@ -107,6 +107,7 @@ $result = $conn->query($sql);
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
+            margin-left: 5px;
         }
         .btn-complete:hover {
             background-color: #218838;
@@ -121,6 +122,16 @@ $result = $conn->query($sql);
             font-size: 0.85rem;
             border-radius: 5px;
             cursor: default;
+        }
+        .btn-incomplete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            cursor: default;
+            display: inline-block;
         }
     </style>
 </head>
@@ -151,6 +162,7 @@ $result = $conn->query($sql);
             <?php if ($status === 'completed'): ?>
               <button class="btn-completed-disabled" disabled>Completed</button>
             <?php else: ?>
+              <span class="btn-incomplete">Incomplete</span>
               <a href="admin_orders.php?id=<?= $row['id']; ?>" class="btn-complete">Mark as Completed</a>
             <?php endif; ?>
           </td>
