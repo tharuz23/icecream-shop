@@ -53,21 +53,12 @@ if (!$result) {
         .btn-primary:hover {
             background-color: #e0559f;
         }
-        .btn-danger, 
-        .btn-warning {
+        .btn-danger {
             background-color: #ff6f61;
             border: none;
-            color: white;
-            font-weight: 700;
-            padding: 12px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(255, 111, 97, 0.5);
-            transition: background-color 0.3s ease;
         }
-        .btn-danger:hover, 
-        .btn-warning:hover {
+        .btn-danger:hover {
             background-color: #e65c50;
-            color: white;
         }
         .btn-success {
             background-color: #ff9f80;
@@ -98,13 +89,29 @@ if (!$result) {
         .logout-btn:hover {
             background-color: #ff3b2e;
         }
+        .btn-view-orders {
+            background-color: #ff9f80;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+            transition: background-color 0.3s ease;
+        }
+        .btn-view-orders:hover {
+            background-color: #e68463;
+        }
     </style>
 </head>
 <body>
   <div class="container mt-5">
     <h2 class="mb-4">Welcome, Admin!</h2>
-    <a href="admin_orders.php" class="btn btn-lg btn-warning mb-4">View All Orders</a>
+
+    <a href="admin_orders.php" class="btn btn-lg btn-view-orders mb-4">View All Orders</a>
+
     <h3 class="mt-4">Ice Cream Items</h3>
+
     <table class="table table-striped table-bordered mt-3">
       <thead>
         <tr>
@@ -130,9 +137,12 @@ if (!$result) {
         <?php } ?>
       </tbody>
     </table>
+
     <a href="add_item.php" class="btn btn-success mt-3">Add New Ice Cream Item</a>
+
     <a href="logout.php" class="btn btn-danger btn-lg logout-btn">Logout</a>
   </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
