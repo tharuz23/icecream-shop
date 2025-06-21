@@ -39,9 +39,6 @@ $result = $conn->query($sql);
         a {
             text-decoration: none;
         }
-        a:hover {
-            text-decoration: underline;
-        }
         table thead {
             background: #ff85a2;
             color: #fff;
@@ -84,11 +81,16 @@ $result = $conn->query($sql);
             background-color: #e68463;
             color: white;
         }
-        .pending-row {
-            background-color: rgba(255, 99, 71, 0.1);
+        .btn-complete {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            background-color: #8bc34a;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
-        .completed-row {
-            background-color: rgba(144, 238, 144, 0.2);
+        .btn-complete:hover {
+            background-color: #689f38;
         }
     </style>
 </head>
@@ -103,24 +105,27 @@ $result = $conn->query($sql);
           <th>Flavor</th>
           <th>Quantity</th>
           <th>Status</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <?php while ($row = $result->fetch_assoc()) {
-            $status = strtolower($row['status'] ?? 'pending');
-            $row_class = ($status === 'completed') ? 'completed-row' : 'pending-row';
+        <?php while ($row = $result->fetch_assoc()) { 
+            $status = strtolower($row['status']);
+            $bgColor = $status === 'completed' ? '#d4edda' : '#ffe3e3';
         ?>
-        <tr class="<?= $row_class ?>">
+        <tr style="background-color: <?= $bgColor ?>;">
           <td><?= $row['id']; ?></td>
           <td><?= htmlspecialchars($row['name']); ?></td>
           <td><?= htmlspecialchars($row['flavor']); ?></td>
           <td><?= $row['quantity']; ?></td>
+          <td><?= $status === 'completed' ? '✅' : '❌'; ?></td>
           <td>
-            <?= ucfirst($status); ?>
-            <?php if ($status !== 'completed'): ?>
-              <br>
-              <a href="mark_completed.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-success mt-1">Mark as Completed</a>
-            <?php endif; ?>
+            <?php if ($status !== 'completed') { ?>
+              <form method="post" action="mark_completed.php" style="margin:0;">
+                <input type="hidden" name="order_id" value="<?= $row['id']; ?>">
+                <button type="submit" class="btn-complete">Mark as Completed</button>
+              </form>
+            <?php } else { echo '-'; } ?>
           </td>
         </tr>
         <?php } ?>
