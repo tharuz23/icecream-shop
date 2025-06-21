@@ -14,6 +14,13 @@ $result = $conn->query($sql);
 if (!$result) {
     die("SQL Error: " . $conn->error);
 }
+
+// Fetch incomplete orders count
+$orderCountResult = $conn->query("SELECT COUNT(*) AS incomplete_orders FROM orders WHERE status != 'completed'");
+$incompleteOrderCount = 0;
+if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
+    $incompleteOrderCount = $row['incomplete_orders'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -119,7 +126,9 @@ if (!$result) {
   <div class="container mt-5">
     <h2 class="mb-4">Welcome, Admin!</h2>
 
-    <a href="admin_orders.php" class="btn btn-lg btn-view-orders mb-4">View All Orders</a>
+    <a href="admin_orders.php" class="btn btn-lg btn-view-orders mb-4">
+      View All Orders (<?= $incompleteOrderCount; ?>)
+    </a>
 
     <h3 class="mt-4">Ice Cream Items</h3>
 
@@ -134,7 +143,7 @@ if (!$result) {
         </tr>
       </thead>
       <tbody>
-        <?php while($row = $result->fetch_assoc()) { ?>
+        <?php while ($row = $result->fetch_assoc()) { ?>
         <tr>
           <td><?= $row['id']; ?></td>
           <td><?= htmlspecialchars($row['name']); ?></td>
