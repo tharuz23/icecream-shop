@@ -79,7 +79,7 @@ if (!$result) {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #ff69b4;
+            background-color: #ff9f80;
             border: none;
             color: #fff;
             font-weight: 600;
@@ -128,7 +128,7 @@ if (!$result) {
           <th>Name</th>
           <th>Flavor</th>
           <th>Price</th>
-          <th>Actions</th>
+          <th style="width: 130px;">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -140,7 +140,7 @@ if (!$result) {
           <td><?= $row['price']; ?></td>
           <td>
             <a href="edit_item.php?id=<?= $row['id']; ?>" class="btn btn-primary btn-sm me-1">Edit</a>
-            <a href="delete_item.php?id=<?= $row['id']; ?>" onclick="return confirm('Delete this item?');" class="btn btn-danger btn-sm">Delete</a>
+            <a href="delete_item.php?id=<?= $row['id']; ?>" onclick="return confirm('Delete this item?');" class="btn btn-danger btn-sm">Del</a>
           </td>
         </tr>
         <?php } ?>
