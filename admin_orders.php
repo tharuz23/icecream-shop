@@ -47,6 +47,12 @@ $result = $conn->query($sql);
             color: #fff;
             font-weight: 600;
         }
+        .pending-row {
+            background-color: rgba(255, 99, 132, 0.15);
+        }
+        .completed-row {
+            background-color: rgba(144, 238, 144, 0.2);
+        }
         table tbody tr:hover {
             background: #ffe3ec;
         }
@@ -96,15 +102,20 @@ $result = $conn->query($sql);
           <th>Name</th>
           <th>Flavor</th>
           <th>Quantity</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <?php while ($row = $result->fetch_assoc()) { ?>
-        <tr>
+        <?php while ($row = $result->fetch_assoc()) { 
+          $status = isset($row['status']) ? strtolower($row['status']) : 'pending';
+          $rowClass = $status === 'completed' ? 'completed-row' : 'pending-row';
+        ?>
+        <tr class="<?= $rowClass ?>">
           <td><?= $row['id']; ?></td>
           <td><?= htmlspecialchars($row['name']); ?></td>
           <td><?= htmlspecialchars($row['flavor']); ?></td>
           <td><?= $row['quantity']; ?></td>
+          <td><?= ucfirst($status); ?></td>
         </tr>
         <?php } ?>
       </tbody>
