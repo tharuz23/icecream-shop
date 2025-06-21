@@ -68,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             transition: background-color 0.3s ease;
             font-size: 0.9rem;
             display: inline-block;
-            margin-top: 20px;
         }
         .btn-back:hover {
             background-color: #e68463;
@@ -81,7 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: white;
             padding: 10px 25px;
             border-radius: 8px;
-            float: right;
         }
         .btn-submit:hover {
             background-color: #e0559f;
@@ -105,6 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             justify-content: space-between;
             align-items: center;
             margin-top: 30px;
+        }
+        a {
+            text-decoration: none;
         }
     </style>
 </head>
