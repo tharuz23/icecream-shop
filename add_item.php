@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <div class="form-buttons">
-            <a href="admin_panel.php" class="btn-back">← Back to Admin Panel</a>
+            <a href="admin_panel.php" class="btn-back">Back to Admin Panel</a>
             <input type="submit" value="Add Item" class="btn btn-submit">
         </div>
     </form>
