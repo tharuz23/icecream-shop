@@ -1,3 +1,25 @@
+<?php
+session_start();
+
+
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header('Location: admin_login.php');
+    exit();
+}
+
+
+include 'db_connect.php';
+
+
+$sql = "SELECT * FROM icecream_items";
+$result = $conn->query($sql);
+
+
+if (!$result) {
+    die("SQL Error: " . $conn->error);
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +28,9 @@
 <body>
     <h2>Welcome, Admin!</h2>
     <a href="logout.php">Logout</a> | <a href="admin_orders.php">View All Orders</a>
+
     <h3>Ice Cream Items</h3>
+
     <table border="1" cellpadding="5" cellspacing="0">
         <tr>
             <th>ID</th>
@@ -28,6 +52,7 @@
         </tr>
         <?php } ?>
     </table>
+
     <br>
     <a href="add_item.php">Add New Ice Cream Item</a>
 </body>
