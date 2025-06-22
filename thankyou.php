@@ -1,51 +1,52 @@
-<?php
-$name = $_GET['name'] ?? '';
-$flavor = $_GET['flavor'] ?? '';
-$quantity = $_GET['quantity'] ?? '';
-?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Order Complete - ScoopNest</title>
+  <meta charset="UTF-8">
+  <title>Thank You - ScoopNest</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       background: #fff0f6;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding: 50px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .box {
-      background: #fff8f0;
+    .container {
+      max-width: 500px;
+      margin: 100px auto;
       padding: 40px;
+      background: #fff8f0;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      display: inline-block;
+      box-shadow: 0 8px 15px rgba(255, 182, 193, 0.3);
+      text-align: center;
     }
     h2 {
       color: #d6336c;
+      font-weight: 700;
+      margin-bottom: 20px;
     }
-    .btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #d6336c;
+    p {
+      font-size: 18px;
+      color: #6b021a;
+      font-weight: 600;
+    }
+    .btn-home {
+      margin-top: 30px;
+      background-color: #d6336c;
       color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      display: inline-block;
+      padding: 10px 25px;
       font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
     }
-    .btn:hover {
-      background-color: #a61e4d;
+    .btn-home:hover {
+      background-color: rgb(208, 110, 136);
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2>Thank You, <?= htmlspecialchars($name) ?>!</h2>
-    <p>Your order for <strong><?= htmlspecialchars($quantity) ?> <?= htmlspecialchars($flavor) ?></strong> has been successfully placed.</p>
-    <a class="btn" href="order.php">Place Another Order</a>
-    <a class="btn" href="index.php">Home</a>
+  <div class="container">
+    <h2>🎉 Thank You for Your Order!</h2>
+    <p>Your scoop is on its way. We hope you enjoy it!</p>
+    <a href="index.php" class="btn-home">Back to Home</a>
   </div>
 </body>
 </html>
