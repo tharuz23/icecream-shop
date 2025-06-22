@@ -71,7 +71,7 @@
     }
 
     .hero button:hover {
-      background-color: #e0559f;
+      background-color:rgb(210, 112, 164);
     }
   </style>
 </head>
