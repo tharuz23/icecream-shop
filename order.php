@@ -121,7 +121,7 @@ $conn->close();
     }
     .back-home:hover,
     .back-menu:hover {
-      background-color: #c3214d;
+      background-color:rgb(208, 110, 136);
     }
   </style>
 </head>
