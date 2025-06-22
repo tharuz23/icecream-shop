@@ -16,12 +16,12 @@
       margin-top: 60px;
       box-shadow: 0 8px 15px rgba(255, 182, 193, 0.3);
       max-width: 700px;
+      text-align: center;
     }
     h2 {
       color: #d6336c;
       font-weight: 700;
       margin-bottom: 30px;
-      text-align: center;
     }
     .menu {
       display: grid;
@@ -42,13 +42,30 @@
       transform: scale(1.05);
       background-color: #ffc2e0;
     }
+    .btn-home {
+      background-color: #d6336c;
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 25px;
+      border-radius: 8px;
+      margin-top: 30px;
+      box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-home:hover {
+      background-color:rgb(222, 104, 145);;
+      color: white;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>🍨 Our Flavors</h2>
     <div class="menu">
-      <div class="item">VanillaClassic Vanilla Dream</div>
+      <div class="item">Vanilla Classic Dream</div>
       <div class="item">Rich Chocolate Fudge</div>
       <div class="item">Sweet Strawberry Swirl</div>
       <div class="item">Fresh Minty Chip</div>
@@ -59,6 +76,7 @@
       <div class="item">Tropical Mango Bliss</div>
       <div class="item">Nutty Pistachio Crunch</div>
     </div>
+    <a href="index.php" class="btn-home">Back to Home</a>
   </div>
 </body>
 </html>
