@@ -4,10 +4,9 @@ include 'db.php';
 
 $name = '';
 $flavor = '';
-$quantity = '';
+$quantity = 0;
 $phone = '';
 $error = '';
-$submitted = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST['name'] ?? '');
@@ -16,12 +15,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = trim($_POST['phone'] ?? '');
 
     if ($name && $flavor && $quantity > 0 && $phone) {
-        $_SESSION['order_name'] = $name;
-        $_SESSION['order_flavor'] = $flavor;
-        $_SESSION['order_quantity'] = $quantity;
-        $_SESSION['order_phone'] = $phone;
-        header("Location: payment.php");
-        exit();
+        $stmt = $conn->prepare("INSERT INTO orders (name, flavor, quantity, phone, status, payment_method, order_time, order_code) VALUES (?, ?, ?, ?, 'pending', 'Cash', NOW(), ?)");
+        $order_code = strtoupper(bin2hex(random_bytes(4)));
+        $stmt->bind_param("ssiss", $name, $flavor, $quantity, $phone, $order_code);
+        if ($stmt->execute()) {
+            $_SESSION['order_id'] = $stmt->insert_id;
+            $_SESSION['order_name'] = $name;
+            $_SESSION['order_flavor'] = $flavor;
+            $_SESSION['order_quantity'] = $quantity;
+            $_SESSION['order_phone'] = $phone;
+            $_SESSION['order_code'] = $order_code;
+            $stmt->close();
+            header("Location: payment.php");
+            exit();
+        } else {
+            $error = "Failed to place order. Please try again.";
+        }
     } else {
         $error = "Please fill in all the fields.";
     }
@@ -48,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
   <div class="order-container">
     <h2>Place Your Order</h2>
-    <?php if ($error): ?><div class="error"><?= $error ?></div><?php endif; ?>
+    <?php if ($error): ?><div class="error"><?= htmlspecialchars($error) ?></div><?php endif; ?>
     <form action="order.php" method="POST">
       <label for="name">Your Name:</label>
       <input type="text" name="name" id="name" value="<?= htmlspecialchars($name) ?>" required />
@@ -58,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <label for="flavor">Choose a Flavor:</label>
       <select name="flavor" id="flavor" required>
-        <option value="" disabled selected hidden>-- Select a Flavor --</option>
+        <option value="" disabled <?= $flavor === '' ? 'selected' : '' ?>>-- Select a Flavor --</option>
         <option <?= $flavor === 'Classic Vanilla Dream' ? 'selected' : '' ?>>Classic Vanilla Dream</option>
         <option <?= $flavor === 'Rich Chocolate Fudge' ? 'selected' : '' ?>>Rich Chocolate Fudge</option>
         <option <?= $flavor === 'Sweet Strawberry Swirl' ? 'selected' : '' ?>>Sweet Strawberry Swirl</option>
