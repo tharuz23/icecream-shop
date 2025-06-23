@@ -5,6 +5,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 include 'db.php';
+
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
     $stmt = $conn->prepare("UPDATE orders SET status = 'completed' WHERE id = ?");
@@ -14,6 +15,17 @@ if (isset($_GET['id'])) {
     header('Location: admin_orders.php');
     exit();
 }
+
+if (isset($_GET['markpaid'])) {
+    $id = intval($_GET['markpaid']);
+    $stmt = $conn->prepare("UPDATE orders SET payment_method = 'Card', card_holder = 'Manually Marked', card_number = '0000' WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+    header('Location: admin_orders.php');
+    exit();
+}
+
 $sql = "SELECT * FROM orders ORDER BY id DESC";
 $result = $conn->query($sql);
 $countQuery = "SELECT COUNT(*) AS pending_count FROM orders WHERE status IS NULL OR status != 'completed'";
@@ -25,10 +37,11 @@ if ($countResult && $countRow = $countResult->fetch_assoc()) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8" />
     <title>Admin - Orders</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         body {
             background: #fff0f6;
@@ -40,7 +53,6 @@ if ($countResult && $countRow = $countResult->fetch_assoc()) {
             padding: 30px;
             box-shadow: 0 8px 15px rgba(255, 182, 193, 0.3);
             margin-top: 50px;
-            position: relative;
             min-height: 600px;
         }
         h2 {
@@ -57,80 +69,66 @@ if ($countResult && $countRow = $countResult->fetch_assoc()) {
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        a {
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        table thead {
+        .table thead {
             background: #ff85a2;
             color: #fff;
             font-weight: 600;
         }
-        table tbody tr.pending {
-            background-color: rgba(255, 0, 0, 0.1);
+        .paid-row {
+            background-color: rgba(173, 216, 230, 0.2);
         }
-        table tbody tr.completed {
-            background-color: rgba(0, 128, 0, 0.1);
+        .btn-back {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: #ff9f80;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            z-index: 1050;
+        }
+        .btn-back:hover {
+            background-color: #e68463;
+            color: #fff;
         }
         .logout-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            box-shadow: 0 4px 12px rgba(255, 69, 58, 0.6);
-            border-radius: 50px;
-            padding: 12px 25px;
-            font-weight: 700;
-            z-index: 1050;
             background-color: #ff69b4;
             border: none;
             color: white;
-            transition: background-color 0.3s ease;
+            font-weight: 700;
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(255, 69, 58, 0.6);
+            font-size: 1rem;
+            z-index: 1050;
+            text-decoration: none;
         }
         .logout-btn:hover {
             background-color: #e65c50;
-        }
-        .btn-back {
-            background-color: #ff9f80;
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            padding: 6px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
-            transition: background-color 0.3s ease;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-top: 20px;
-        }
-        .btn-back:hover {
-            background-color: #e68463;
             color: white;
+            text-decoration: none;
         }
-        .btn-complete {
-            background-color: #e68463;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            font-size: 0.85rem;
+        .btn-smaller {
+            font-size: 0.8rem;
+            padding: 4px 10px;
             border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
             display: inline-block;
-            margin-left: 5px;
-        }
-        .btn-complete:hover {
-            background-color: #ff69b4;
-            color: white;
-            text-decoration: none;
         }
         .btn-completed-disabled {
-            background-color: #ff69b4;
+            background-color: #146c43;
             color: white;
             border: none;
-            padding: 5px 12px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            padding: 4px 10px;
             border-radius: 5px;
             cursor: default;
         }
@@ -138,53 +136,110 @@ if ($countResult && $countRow = $countResult->fetch_assoc()) {
             background-color: #dc3545;
             color: white;
             border: none;
-            padding: 5px 12px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            padding: 4px 10px;
             border-radius: 5px;
             cursor: default;
             display: inline-block;
+            margin-bottom: 4px;
+        }
+        td.flavor-col {
+            max-width: 140px;
+            word-wrap: break-word;
+        }
+        td.code-col {
+            max-width: 100px;
+            word-wrap: break-word;
+        }
+        td.phone-col {
+            min-width: 140px;
+        }
+        td.action-col {
+            min-width: 160px;
+        }
+        .btn-green {
+            background-color: #146c43;
+            color: white;
+        }
+        .btn-green:hover {
+            background-color: #146c43;
+            color: white;
+        }
+        .btn-yellow {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .btn-yellow:hover {
+            background-color: #e0a800;
+            color: #212529;
         }
     </style>
 </head>
 <body>
-  <div class="container">
-    <h2>All Orders</h2>
-    <div class="pending-bar"><?= $pendingCount ?> order(s) are pending</div>
-    <table class="table table-striped table-bordered mt-3">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Flavor</th>
-          <th>Quantity</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php while ($row = $result->fetch_assoc()) {
-          $status = strtolower($row['status'] ?? 'pending');
-          $rowClass = ($status === 'completed') ? 'completed' : 'pending';
-        ?>
-        <tr class="<?= $rowClass ?>">
-          <td><?= $row['id']; ?></td>
-          <td><?= htmlspecialchars($row['name']); ?></td>
-          <td><?= htmlspecialchars($row['flavor']); ?></td>
-          <td><?= $row['quantity']; ?></td>
-          <td>
-            <?php if ($status === 'completed'): ?>
-              <button class="btn-completed-disabled" disabled>Completed</button>
-            <?php else: ?>
-              <span class="btn-incomplete">Incomplete</span>
-              <a href="admin_orders.php?id=<?= $row['id']; ?>" class="btn-complete">Mark as Completed</a>
-            <?php endif; ?>
-          </td>
-        </tr>
-        <?php } ?>
-      </tbody>
-    </table>
+    <div class="container">
+        <h2>All Orders</h2>
+        <div class="pending-bar"><?= (int)$pendingCount ?> order(s) are pending</div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle text-center">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th class="phone-col">Phone</th>
+                        <th class="flavor-col">Flavor</th>
+                        <th>Qty</th>
+                        <th>Payment</th>
+                        <th class="code-col">Pickup Code</th>
+                        <th>Order Time</th>
+                        <th class="action-col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()):
+                        $isPaid = strtolower($row['payment_method'] ?? '') === 'card';
+                        $status = strtolower($row['status'] ?? 'pending');
+                    ?>
+                    <tr class="<?= $isPaid ? 'paid-row' : '' ?>">
+                        <td><?= htmlspecialchars($row['id'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($row['name'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars(!empty($row['Phone']) ? $row['Phone'] : '-') ?></td>
+                        <td class="flavor-col"><?= htmlspecialchars($row['flavor'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($row['quantity'] ?? '-') ?></td>
+                        <td>
+                            <?php if ($isPaid): ?>
+                                <div class="btn btn-success btn-smaller">Paid</div>
+                            <?php else: ?>
+                                <div class="btn btn-danger btn-smaller mb-1">Unpaid</div>
+                                <a href="admin_orders.php?markpaid=<?= $row['id'] ?>" class="btn btn-warning btn-smaller">Mark as Paid</a>
+                            <?php endif; ?>
+                        </td>
+                        <td class="code-col"><?= htmlspecialchars($row['order_code'] ?? '-') ?></td>
+                        <td>
+                            <?php
+                                $time = $row['order_time'] ?? '-';
+                                if ($time && $time !== '-') {
+                                    $dt = new DateTime($time);
+                                    echo $dt->format('Y-m-d') . "<br>" . $dt->format('H:i:s');
+                                } else {
+                                    echo '-';
+                                }
+                            ?>
+                        </td>
+                        <td class="action-col">
+                            <?php if ($status === 'completed'): ?>
+                                <div class="btn btn-smaller btn-green">Completed</div>
+                            <?php else: ?>
+                                <div class="btn-incomplete">Incomplete</div>
+                                <a href="admin_orders.php?id=<?= $row['id']; ?>" class="btn btn-smaller btn-yellow">Mark as Completed</a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <a href="admin_panel.php" class="btn-back">Back to Admin Panel</a>
     <a href="logout.php" class="logout-btn">Logout</a>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
