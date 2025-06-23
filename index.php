@@ -1,3 +1,9 @@
+<?php
+session_start();
+session_unset();
+session_destroy();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,7 +77,7 @@
     }
 
     .hero button:hover {
-      background-color:rgb(210, 112, 164);
+      background-color: rgb(210, 112, 164);
     }
   </style>
 </head>
