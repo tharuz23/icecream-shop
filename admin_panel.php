@@ -15,7 +15,6 @@ if (!$result) {
     die("SQL Error: " . $conn->error);
 }
 
-// Fetch incomplete orders count
 $orderCountResult = $conn->query("SELECT COUNT(*) AS incomplete_orders FROM orders WHERE status != 'completed'");
 $incompleteOrderCount = 0;
 if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
@@ -53,55 +52,32 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
         table tbody tr:hover {
             background: #ffe3ec;
         }
+        /* Buttons */
         .btn-primary {
             background-color: #ff69b4;
             border: none;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
         }
         .btn-primary:hover {
-            background-color: #e0559f;
+            background-color: #d6336c;
+            color: white;
+            text-decoration: none;
         }
         .btn-danger {
             background-color: #ff6f61;
             border: none;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
         }
         .btn-danger:hover {
             background-color: #e65c50;
-        }
-        .btn-success {
-            background-color: #ff9f80;
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            padding: 12px 24px;
-            font-size: 1.05rem;
-        }
-        .btn-success:hover {
-            background-color: #e68463;
-        }
-        a {
+            color: white;
             text-decoration: none;
         }
-        a:hover {
-            text-decoration: underline;
-        }
-        .logout-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #ff69b4;
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(255, 69, 58, 0.6);
-            border-radius: 50px;
-            padding: 12px 25px;
-            font-size: 1rem;
-            z-index: 1050;
-            transition: background-color 0.3s ease;
-        }
-        .logout-btn:hover {
-            background-color: #e68463;
-        }
+        /* View All Orders button */
         .btn-view-orders {
             background-color: #ff9f80;
             border: none;
@@ -111,13 +87,76 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
             transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
-        .btn-view-orders:hover {
-            background-color: #e68463;
+        .btn-view-orders:hover,
+        .btn-view-orders:focus,
+        .btn-view-orders:active {
+            background-color: #e68463 !important;
+            color: #fff;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.7);
+        }
+        /* Add New Item button */
+        .btn-add-item {
+            background-color: #ff9f80;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.05rem;
+        }
+        .btn-add-item:hover,
+        .btn-add-item:focus,
+        .btn-add-item:active {
+            background-color: #e68463 !important;
+            color: #fff;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.7);
+        }
+        /* Logout button styling */
+        .logout-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #ff69b4;
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(255, 69, 58, 0.6);
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            z-index: 1050;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        .logout-btn:hover,
+        .logout-btn:focus,
+        .logout-btn:active {
+            background-color: #e65c50;
+            color: #fff;
+            text-decoration: none;
+        }
+        /* Remove underline and text color changes on links */
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: none;
+        }
+        a:hover, a:focus, a:active {
+            color: inherit;
+            text-decoration: none;
         }
         .add-btn-wrapper {
             display: flex;
-            justify-content: end;
+            justify-content: flex-end;
             margin-top: 20px;
         }
     </style>
@@ -126,7 +165,7 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
   <div class="container mt-5">
     <h2 class="mb-4">Welcome, Admin!</h2>
 
-    <a href="admin_orders.php" class="btn btn-lg btn-view-orders mb-4">
+    <a href="admin_orders.php" class="btn btn-view-orders mb-4">
       View All Orders (<?= $incompleteOrderCount; ?>)
     </a>
 
@@ -159,7 +198,7 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
     </table>
 
     <div class="add-btn-wrapper">
-      <a href="add_item.php" class="btn btn-success btn-lg">Add New Ice Cream Item</a>
+      <a href="add_item.php" class="btn btn-add-item">Add New Ice Cream Item</a>
     </div>
 
     <a href="logout.php" class="btn logout-btn">Logout</a>
