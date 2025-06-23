@@ -44,14 +44,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <title>Place Order - ScoopNest</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    body { font-family: 'Segoe UI', sans-serif; background-color: #fff0f6; margin: 0; padding: 0; }
-    .order-container { max-width: 500px; margin: 60px auto; padding: 30px; background-color: #fef7f1; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); text-align: center; }
-    h2 { color: #d6336c; margin-bottom: 20px; }
-    label { display: block; text-align: left; margin: 15px 0 5px; font-weight: 500; color: #d6336c; }
-    input, select { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 10px; }
-    button { width: 100%; padding: 12px; margin-top: 20px; background-color: #ff69b4; color: white; font-size: 16px; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; }
-    button:hover { background-color: #d6336c; }
-    .error { color: red; margin-top: 15px; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff0f6;
+      margin: 0;
+      padding: 0;
+    }
+    .order-container {
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: #fef7f1;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h2 {
+      color: #d6336c;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      text-align: left;
+      margin: 15px 0 5px;
+      font-weight: 500;
+      color: #d6336c;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #ff69b4;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #d6336c;
+    }
+    .error {
+      color: red;
+      margin-top: 15px;
+    }
+    .btn-home {
+      background-color: #d6336c;
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 25px;
+      border-radius: 8px;
+      margin-top: 25px;
+      box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-home:hover {
+      background-color: rgb(222, 104, 145);
+      color: white;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -85,6 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <button type="submit">Proceed to Payment</button>
     </form>
+    <a href="index.php" class="btn-home">Back to Home</a>
   </div>
 </body>
 </html>
