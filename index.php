@@ -119,44 +119,16 @@
       z-index: 1000;
     }
 
-    .drop1 {
-      left: 10%;
-      animation-duration: 7s;
-      animation-delay: 0s;
-    }
-    .drop2 {
-      left: 30%;
-      animation-duration: 6s;
-      animation-delay: 1.5s;
-    }
-    .drop3 {
-      left: 50%;
-      animation-duration: 8s;
-      animation-delay: 0.7s;
-    }
-    .drop4 {
-      left: 70%;
-      animation-duration: 5.5s;
-      animation-delay: 2.3s;
-    }
-    .drop5 {
-      left: 85%;
-      animation-duration: 7.5s;
-      animation-delay: 1s;
-    }
+    .drop1 { left: 10%; animation-duration: 7s; animation-delay: 0s; }
+    .drop2 { left: 30%; animation-duration: 6s; animation-delay: 1.5s; }
+    .drop3 { left: 50%; animation-duration: 8s; animation-delay: 0.7s; }
+    .drop4 { left: 70%; animation-duration: 5.5s; animation-delay: 2.3s; }
+    .drop5 { left: 85%; animation-duration: 7.5s; animation-delay: 1s; }
 
     @keyframes drop {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
@@ -167,14 +139,13 @@
       <img src="logo.jpg.jpg" alt="ScoopNest Logo" class="logo" />
       <span class="brand-title">ScoopNest</span>
     </div>
-    <div class="nav-center">
-    </div>
+    <div class="nav-center"></div>
     <nav>
       <a href="index.php">Home</a>
       <a href="menu.php">Menu</a>
       <a href="order.php">Order Now</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
+      <a href="about.php">About</a>
+      <a href="contact.php">Contact</a>
     </nav>
   </header>
 
