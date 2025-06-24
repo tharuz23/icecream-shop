@@ -48,18 +48,20 @@ $conn->close();
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #fff0f6;
       margin: 0;
       padding: 0;
+      background: url('order.php.jpg') no-repeat center center fixed;
+      background-size: cover;
     }
     .order-container {
       max-width: 500px;
       margin: 60px auto;
       padding: 30px;
-      background-color: #fef7f1;
+      background-color: rgba(255, 248, 240, 0.7);
       border-radius: 16px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       text-align: center;
+      position: relative;
     }
     h2 {
       color: #d6336c;
@@ -99,17 +101,22 @@ $conn->close();
       margin-top: 15px;
     }
     .btn-home {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
       background-color: #d6336c;
       color: #fff;
       padding: 10px 25px;
       border-radius: 8px;
-      margin-top: 25px;
       text-decoration: none;
       display: inline-block;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+      font-weight: 600;
+      z-index: 1000;
     }
     .btn-home:hover {
       background-color: rgb(222, 104, 145);
-      color: white;
     }
   </style>
 </head>
@@ -147,7 +154,7 @@ $conn->close();
 
       <button type="submit">Proceed to Payment</button>
     </form>
-    <a href="index.php" class="btn-home">Back to Home</a>
   </div>
+  <a href="index.php" class="btn-home">Back to Home</a>
 </body>
 </html>
