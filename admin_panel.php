@@ -52,7 +52,6 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
         table tbody tr:hover {
             background: #ffe3ec;
         }
-        /* Buttons */
         .btn-primary {
             background-color: #ff69b4;
             border: none;
@@ -77,7 +76,6 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             color: white;
             text-decoration: none;
         }
-        /* View All Orders button */
         .btn-view-orders {
             background-color: #ff9f80;
             border: none;
@@ -98,7 +96,6 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             text-decoration: none;
             box-shadow: 0 4px 10px rgba(230, 132, 99, 0.7);
         }
-        /* Add New Item button */
         .btn-add-item {
             background-color: #ff9f80;
             border: none;
@@ -120,7 +117,6 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             text-decoration: none;
             box-shadow: 0 4px 10px rgba(230, 132, 99, 0.7);
         }
-        /* Logout button styling */
         .logout-btn {
             position: fixed;
             bottom: 30px;
@@ -144,7 +140,6 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             color: #fff;
             text-decoration: none;
         }
-        /* Remove underline and text color changes on links */
         a {
             color: inherit;
             text-decoration: none;
