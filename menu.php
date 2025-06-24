@@ -6,16 +6,19 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: #fff0f6;
+      background: url('menu1.jpg.webp') no-repeat center center fixed;
+      background-size: cover;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
     }
     .container {
-      background: #fff8f0;
+      background: rgba(255, 248, 240, 0.7);
       border-radius: 12px;
-      padding: 40px;
-      margin-top: 60px;
+      padding: 60px;
+      margin: 60px auto 100px auto;
       box-shadow: 0 8px 15px rgba(255, 182, 193, 0.3);
-      max-width: 700px;
+      max-width: 900px;
       text-align: center;
     }
     h2 {
@@ -32,7 +35,6 @@
       background-color: #ffdef2;
       padding: 15px;
       border-radius: 10px;
-      text-align: center;
       font-weight: bold;
       color: #a61e4d;
       box-shadow: 0 4px 10px rgba(255, 182, 193, 0.3);
@@ -42,22 +44,36 @@
       transform: scale(1.05);
       background-color: #ffc2e0;
     }
+    .item a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 12px;
+      background-color: #d6336c;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .item a:hover {
+      background-color: #b02a5b;
+    }
     .btn-home {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
       background-color: #d6336c;
       border: none;
       color: #fff;
       font-weight: 600;
       padding: 10px 25px;
       border-radius: 8px;
-      margin-top: 30px;
       box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
       text-decoration: none;
       display: inline-block;
+      z-index: 1000;
     }
     .btn-home:hover {
-      background-color:rgb(222, 104, 145);;
-      color: white;
-      text-decoration: none;
+      background-color: rgb(222, 104, 145);
     }
   </style>
 </head>
@@ -65,18 +81,21 @@
   <div class="container">
     <h2>🍨 Our Flavors</h2>
     <div class="menu">
-      <div class="item">Vanilla Classic Dream</div>
-      <div class="item">Rich Chocolate Fudge</div>
-      <div class="item">Sweet Strawberry Swirl</div>
-      <div class="item">Fresh Minty Chip</div>
-      <div class="item">Cookies & Cream Delight</div>
-      <div class="item">Buttery Pecan Crunch</div>
-      <div class="item">Rocky Road Adventure</div>
-      <div class="item">Bold Coffee Brew</div>
-      <div class="item">Tropical Mango Bliss</div>
-      <div class="item">Nutty Pistachio Crunch</div>
+      <?php
+        $flavors = [
+          "Classic Vanilla Dream", "Rich Chocolate Fudge", "Sweet Strawberry Swirl", "Fresh Minty Chip", "Cookies & Cream Delight",
+          "Buttery Pecan Crunch", "Rocky Road Adventure", "Bold Coffee Brew", "Tropical Mango Bliss", "Nutty Pistachio Crunch",
+          "Golden Salted Caramel", "Blueberry Cream Crumble", "Red Velvet Bliss", "Tiramisu Temptation", "Summer Peach Dream",
+          "Coconut Snowflake", "Black Cherry Bomb", "Matcha Magic", "Choco Dough Delight", "Brownie Fudge Burst",
+          "Raspberry Rush", "Lemon Zing Sorbet", "Apple Pie Scoop", "Nutty Buttercup", "Hazelnut Heaven"
+        ];
+
+        foreach ($flavors as $f) {
+          echo '<div class="item">' . $f . '<br><a href="order.php?flavor=' . urlencode($f) . '">Order Now</a></div>';
+        }
+      ?>
     </div>
-    <a href="index.php" class="btn-home">Back to Home</a>
   </div>
+  <a href="index.php" class="btn-home">Back to Home</a>
 </body>
 </html>
