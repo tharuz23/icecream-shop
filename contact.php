@@ -1,6 +1,6 @@
-<?php include 'db.php';
+<?php
+include 'db.php';
 
-$success = '';
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $name = $_POST['name'];
   $feedback_type = $_POST['feedback_type'];
@@ -8,9 +8,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   $stmt = $conn->prepare("INSERT INTO messages (name, feedback_type, message) VALUES (?, ?, ?)");
   $stmt->bind_param("sss", $name, $feedback_type, $message);
-
   if ($stmt->execute()) {
-    $success = "Thank you for your feedback!";
+    header("Location: thankyou_contact.php");
+    exit();
   }
   $stmt->close();
 }
@@ -28,21 +28,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       height: 100%;
       margin: 0; padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-image: url('index.jpg.jpg');
+      background-image: url('bg1.jpg.jpg');
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
-      overflow-x: hidden;
       background-attachment: fixed;
-      position: relative;
+      overflow-x: hidden;
     }
     body {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      position: relative;
-      z-index: 0;
       padding: 20px;
     }
     .contact-box {
@@ -51,9 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       padding: 25px 30px;
       border-radius: 20px;
       box-shadow: 0 12px 25px rgba(214, 51, 108, 0.3);
-      position: relative;
-      z-index: 2;
-      max-height: 650px;
       overflow-y: auto;
     }
     .logo {
@@ -66,10 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       font-size: 2.8rem;
       font-weight: 900;
       color: #d6336c;
-      text-shadow: 1px 1px 3px rgba(214, 51, 108, 0.6);
       text-align: center;
       margin-bottom: 30px;
-      user-select: none;
     }
     .scoop-info-row {
       display: flex;
@@ -80,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       color: #a61e4d;
       margin-bottom: 20px;
       flex-wrap: nowrap;
-      flex-shrink: 0;
     }
     .scoop-info-row a, .scoop-info-row div {
       display: flex;
@@ -94,7 +84,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     .scoop-info-row i {
       color: #d6336c;
       font-size: 1.25rem;
-      flex-shrink: 0;
     }
     label {
       font-weight: 600;
@@ -108,7 +97,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       border-radius: 12px;
       margin-bottom: 14px;
       font-size: 1rem;
-      resize: vertical;
     }
     button {
       background-color: #d6336c;
@@ -127,36 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     button:hover {
       background-color: #b12756;
     }
-    .success {
-      color: green;
-      font-weight: 600;
-      text-align: center;
-      margin-bottom: 12px;
-    }
-    .icecream-drop {
-      position: fixed;
-      top: -60px;
-      font-size: 32px;
-      opacity: 0.85;
-      pointer-events: none;
-      user-select: none;
-      animation-name: drop;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-      z-index: 9999;
-    }
-    .drop1 { left: 10%; animation-duration: 7s; animation-delay: 0s; }
-    .drop2 { left: 25%; animation-duration: 6.5s; animation-delay: 1s; }
-    .drop3 { left: 40%; animation-duration: 8s; animation-delay: 0.5s; }
-    .drop4 { left: 60%; animation-duration: 7.2s; animation-delay: 1.7s; }
-    .drop5 { left: 75%; animation-duration: 5.8s; animation-delay: 0.9s; }
-    .drop6 { left: 90%; animation-duration: 6.7s; animation-delay: 1.2s; }
-
-    @keyframes drop {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
-    }
   </style>
 </head>
 <body>
@@ -174,9 +132,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <div><i class="fas fa-envelope"></i>hello@scoopnest.com</div>
     </div>
 
-    <?php if ($success): ?>
-      <div class="success"><?= $success ?></div>
-    <?php endif; ?>
     <form method="post">
       <label for="name">Your Name</label>
       <input type="text" id="name" name="name" required />
@@ -195,12 +150,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <button type="button" onclick="window.location.href='index.php'">Back to Home</button>
     </form>
   </div>
-
-  <div class="icecream-drop drop1">🍦</div>
-  <div class="icecream-drop drop2">🍧</div>
-  <div class="icecream-drop drop3">🍨</div>
-  <div class="icecream-drop drop4">🍦</div>
-  <div class="icecream-drop drop5">🍧</div>
-  <div class="icecream-drop drop6">🍨</div>
 </body>
 </html>
