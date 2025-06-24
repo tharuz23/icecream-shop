@@ -84,11 +84,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .form-footer {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 30px;
         }
         .btn-update {
-            background-color: #ff69b4;
+            background-color: #ff9f80;
             border: none;
             color: #fff;
             font-weight: 600;
@@ -97,17 +97,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .btn-update:hover {
             background-color: #e68463;
+            color: #fff;
         }
         .btn-back {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
             background-color: #ff9f80;
             border: none;
             color: #fff;
             font-weight: 600;
-            padding: 8px 20px;
+            padding: 10px 25px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
             text-decoration: none;
-            align-self: flex-start;
+            z-index: 999;
         }
         .btn-back:hover {
             background-color: #e68463;
@@ -164,10 +168,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <div class="form-footer">
-                <a href="admin_panel.php" class="btn-back">Back to Admin Panel</a>
                 <button type="submit" class="btn btn-update">Update Item</button>
             </div>
         </form>
     </div>
+
+    <a href="admin_panel.php" class="btn-back">Back to Admin Panel</a>
 </body>
 </html>
