@@ -43,11 +43,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     .contact-box {
       max-width: 700px;
-      background-color: rgba(255, 248, 240, 0.95);
+      background-color: rgba(255, 248, 240, 0.7);
       padding: 25px 30px;
       border-radius: 20px;
       box-shadow: 0 12px 25px rgba(214, 51, 108, 0.3);
       overflow-y: auto;
+      position: relative;
     }
     .logo {
       height: 60px;
@@ -115,6 +116,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     button:hover {
       background-color: #b12756;
     }
+    .btn-home {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #d6336c;
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .btn-home:hover {
+      background-color: rgb(222, 104, 145);
+    }
   </style>
 </head>
 <body>
@@ -147,8 +167,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <label for="message">Message</label>
       <textarea id="message" name="message" rows="4" required></textarea>
       <button type="submit">Send Message</button>
-      <button type="button" onclick="window.location.href='index.php'">Back to Home</button>
     </form>
   </div>
+  <a href="index.php" class="btn-home">Back to Home</a>
 </body>
 </html>
