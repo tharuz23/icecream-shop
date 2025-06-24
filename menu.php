@@ -21,6 +21,10 @@
       max-width: 900px;
       text-align: center;
     }
+    .logo {
+      height: 70px;
+      margin-bottom: 25px;
+    }
     h2 {
       color: #d6336c;
       font-weight: 700;
@@ -28,7 +32,7 @@
     }
     .menu {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 20px;
     }
     .item {
@@ -43,6 +47,12 @@
     .item:hover {
       transform: scale(1.05);
       background-color: #ffc2e0;
+    }
+    .price {
+      font-size: 16px;
+      color: #b02a5b;
+      font-weight: 600;
+      margin-top: 5px;
     }
     .item a {
       display: inline-block;
@@ -79,19 +89,40 @@
 </head>
 <body>
   <div class="container">
+    <img src="logo.jpg.jpg" alt="ScoopNest Logo" class="logo">
     <h2>🍨 Our Flavors</h2>
     <div class="menu">
       <?php
         $flavors = [
-          "Classic Vanilla Dream", "Rich Chocolate Fudge", "Sweet Strawberry Swirl", "Fresh Minty Chip", "Cookies & Cream Delight",
-          "Buttery Pecan Crunch", "Rocky Road Adventure", "Bold Coffee Brew", "Tropical Mango Bliss", "Nutty Pistachio Crunch",
-          "Golden Salted Caramel", "Blueberry Cream Crumble", "Red Velvet Bliss", "Tiramisu Temptation", "Summer Peach Dream",
-          "Coconut Snowflake", "Black Cherry Bomb", "Matcha Magic", "Choco Dough Delight", "Brownie Fudge Burst",
-          "Raspberry Rush", "Lemon Zing Sorbet", "Apple Pie Scoop", "Nutty Buttercup", "Hazelnut Heaven"
+          "Classic Vanilla Dream" => "Rs. 450",
+          "Rich Chocolate Fudge" => "Rs. 500",
+          "Sweet Strawberry Swirl" => "Rs. 480",
+          "Fresh Minty Chip" => "Rs. 470",
+          "Cookies & Cream Delight" => "Rs. 520",
+          "Buttery Pecan Crunch" => "Rs. 550",
+          "Rocky Road Adventure" => "Rs. 530",
+          "Bold Coffee Brew" => "Rs. 500",
+          "Tropical Mango Bliss" => "Rs. 490",
+          "Nutty Pistachio Crunch" => "Rs. 550",
+          "Golden Salted Caramel" => "Rs. 520",
+          "Blueberry Cream Crumble" => "Rs. 540",
+          "Red Velvet Bliss" => "Rs. 560",
+          "Tiramisu Temptation" => "Rs. 580",
+          "Summer Peach Dream" => "Rs. 490",
+          "Coconut Snowflake" => "Rs. 470",
+          "Black Cherry Bomb" => "Rs. 510",
+          "Matcha Magic" => "Rs. 560",
+          "Choco Dough Delight" => "Rs. 520",
+          "Brownie Fudge Burst" => "Rs. 550",
+          "Raspberry Rush" => "Rs. 490",
+          "Lemon Zing Sorbet" => "Rs. 460",
+          "Apple Pie Scoop" => "Rs. 530",
+          "Nutty Buttercup" => "Rs. 550",
+          "Hazelnut Heaven" => "Rs. 570"
         ];
 
-        foreach ($flavors as $f) {
-          echo '<div class="item">' . $f . '<br><a href="order.php?flavor=' . urlencode($f) . '">Order Now</a></div>';
+        foreach ($flavors as $flavor => $price) {
+          echo '<div class="item">' . $flavor . '<div class="price">' . $price . '</div><a href="order.php?flavor=' . urlencode($flavor) . '">Order Now</a></div>';
         }
       ?>
     </div>
