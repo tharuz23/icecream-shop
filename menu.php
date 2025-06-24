@@ -1,9 +1,20 @@
+<?php
+include 'db.php';
+
+$sql = "SELECT * FROM icecream_items ORDER BY id ASC";
+$result = $conn->query($sql);
+
+if (!$result) {
+    die("SQL Error: " . $conn->error);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Menu - ScoopNest</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
       background: url('menu1.jpg.webp') no-repeat center center fixed;
@@ -82,37 +93,9 @@
     <h2>🍨 Our Flavors</h2>
     <div class="menu">
       <?php
-        $flavors = [
-          "Classic Vanilla Dream" => 150,
-          "Rich Chocolate Fudge" => 180,
-          "Sweet Strawberry Swirl" => 170,
-          "Fresh Minty Chip" => 160,
-          "Cookies & Cream Delight" => 200,
-          "Buttery Pecan Crunch" => 190,
-          "Rocky Road Adventure" => 210,
-          "Bold Coffee Brew" => 180,
-          "Tropical Mango Bliss" => 160,
-          "Nutty Pistachio Crunch" => 220,
-          "Golden Salted Caramel" => 230,
-          "Blueberry Cream Crumble" => 210,
-          "Red Velvet Bliss" => 200,
-          "Tiramisu Temptation" => 250,
-          "Summer Peach Dream" => 180,
-          "Coconut Snowflake" => 190,
-          "Black Cherry Bomb" => 220,
-          "Matcha Magic" => 240,
-          "Choco Dough Delight" => 210,
-          "Brownie Fudge Burst" => 260,
-          "Raspberry Rush" => 200,
-          "Lemon Zing Sorbet" => 170,
-          "Apple Pie Scoop" => 190,
-          "Nutty Buttercup" => 210,
-          "Hazelnut Heaven" => 220
-        ];
-
-        foreach ($flavors as $flavorName => $price) {
-          echo '<div class="item">' . htmlspecialchars($flavorName) . '<br>Rs. ' . $price . '<br>';
-          echo '<a href="order.php?flavor=' . urlencode($flavorName) . '&price=' . $price . '">Order Now</a></div>';
+        while ($row = $result->fetch_assoc()) {
+          echo '<div class="item">' . htmlspecialchars($row['flavor']) . '<br>Rs. ' . htmlspecialchars($row['price']) . '<br>';
+          echo '<a href="order.php?flavor=' . urlencode($row['flavor']) . '&price=' . $row['price'] . '">Order Now</a></div>';
         }
       ?>
     </div>
