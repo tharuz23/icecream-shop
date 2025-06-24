@@ -20,12 +20,13 @@
 
     .about-box {
       max-width: 900px;
-      background-color: rgba(255, 248, 240, 0.95);
+      background-color: rgba(255, 248, 240, 0.7);
       padding: 50px 40px;
       border-radius: 20px;
       box-shadow: 0 12px 25px rgba(214, 51, 108, 0.3);
       text-align: center;
-      margin: 80px auto;
+      margin: 80px auto 120px auto;
+      position: relative;
     }
 
     .logo {
@@ -52,27 +53,30 @@
       text-align: justify;
     }
 
-    button {
+    .btn-home {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
       background-color: #d6336c;
-      color: white;
-      font-weight: 700;
       border: none;
-      border-radius: 15px;
-      padding: 14px 36px;
-      font-size: 1.2rem;
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
+      text-decoration: none;
+      display: inline-block;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 6px 12px rgba(214, 51, 108, 0.5);
+      z-index: 1000;
     }
-
-    button:hover {
-      background-color: #b12756;
+    .btn-home:hover {
+      background-color: rgb(222, 104, 145);
     }
   </style>
 </head>
 <body>
   <div class="about-box">
-    <img src="logo.jpg.jpg" alt="ScoopNest Logo" class="logo">
+    <img src="logo.jpg.jpg" alt="ScoopNest Logo" class="logo" />
     <h2>About ScoopNest</h2>
     <p>
       At ScoopNest, ice cream is more than a dessert it's an experience. Founded with a dream to bring flavor, joy, and artistry together in a single scoop, ScoopNest is dedicated to delivering handcrafted ice cream that not only tastes amazing but also tells a story.
@@ -86,7 +90,7 @@
     <p>
       Whether you're picking up a pint to-go or exploring our latest creations in store, we promise to serve you scoops filled with care, quality, and unforgettable taste. Thank you for making ScoopNest your go-to sweet escape.
     </p>
-    <button onclick="window.location.href='index.php'">Back to Home</button>
   </div>
+  <a href="index.php" class="btn-home">Back to Home</a>
 </body>
 </html>
