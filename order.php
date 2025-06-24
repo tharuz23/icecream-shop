@@ -3,7 +3,7 @@ session_start();
 include 'db.php';
 
 $name = '';
-$flavor = '';
+$flavor = isset($_GET['flavor']) ? trim($_GET['flavor']) : '';
 $quantity = 0;
 $phone = '';
 $error = '';
@@ -35,6 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Please fill in all the fields.";
     }
 }
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -98,20 +100,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     .btn-home {
       background-color: #d6336c;
-      border: none;
       color: #fff;
-      font-weight: 600;
       padding: 10px 25px;
       border-radius: 8px;
       margin-top: 25px;
-      box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
       text-decoration: none;
       display: inline-block;
     }
     .btn-home:hover {
       background-color: rgb(222, 104, 145);
       color: white;
-      text-decoration: none;
     }
   </style>
 </head>
@@ -129,16 +127,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <label for="flavor">Choose a Flavor:</label>
       <select name="flavor" id="flavor" required>
         <option value="" disabled <?= $flavor === '' ? 'selected' : '' ?>>-- Select a Flavor --</option>
-        <option <?= $flavor === 'Classic Vanilla Dream' ? 'selected' : '' ?>>Classic Vanilla Dream</option>
-        <option <?= $flavor === 'Rich Chocolate Fudge' ? 'selected' : '' ?>>Rich Chocolate Fudge</option>
-        <option <?= $flavor === 'Sweet Strawberry Swirl' ? 'selected' : '' ?>>Sweet Strawberry Swirl</option>
-        <option <?= $flavor === 'Fresh Minty Chip' ? 'selected' : '' ?>>Fresh Minty Chip</option>
-        <option <?= $flavor === 'Cookies & Cream Delight' ? 'selected' : '' ?>>Cookies & Cream Delight</option>
-        <option <?= $flavor === 'Buttery Pecan Crunch' ? 'selected' : '' ?>>Buttery Pecan Crunch</option>
-        <option <?= $flavor === 'Rocky Road Adventure' ? 'selected' : '' ?>>Rocky Road Adventure</option>
-        <option <?= $flavor === 'Bold Coffee Brew' ? 'selected' : '' ?>>Bold Coffee Brew</option>
-        <option <?= $flavor === 'Tropical Mango Bliss' ? 'selected' : '' ?>>Tropical Mango Bliss</option>
-        <option <?= $flavor === 'Nutty Pistachio Crunch' ? 'selected' : '' ?>>Nutty Pistachio Crunch</option>
+        <?php
+          $flavors = [
+            "Classic Vanilla Dream", "Rich Chocolate Fudge", "Sweet Strawberry Swirl", "Fresh Minty Chip", "Cookies & Cream Delight",
+            "Buttery Pecan Crunch", "Rocky Road Adventure", "Bold Coffee Brew", "Tropical Mango Bliss", "Nutty Pistachio Crunch",
+            "Golden Salted Caramel", "Blueberry Cream Crumble", "Red Velvet Bliss", "Tiramisu Temptation", "Summer Peach Dream",
+            "Coconut Snowflake", "Black Cherry Bomb", "Matcha Magic", "Choco Dough Delight", "Brownie Fudge Burst",
+            "Raspberry Rush", "Lemon Zing Sorbet", "Apple Pie Scoop", "Nutty Buttercup", "Hazelnut Heaven"
+          ];
+          foreach ($flavors as $f) {
+            $selected = $flavor === $f ? 'selected' : '';
+            echo "<option $selected>$f</option>";
+          }
+        ?>
       </select>
 
       <label for="quantity">Quantity:</label>
