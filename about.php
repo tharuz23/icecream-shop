@@ -25,7 +25,7 @@
       border-radius: 20px;
       box-shadow: 0 12px 25px rgba(214, 51, 108, 0.3);
       text-align: center;
-      margin: 80px auto 120px auto;
+      margin: 40px auto 120px auto;
       position: relative;
     }
 
