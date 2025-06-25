@@ -3,28 +3,34 @@ session_start();
 include 'db.php';
 
 $name = '';
-$flavor = isset($_GET['flavor']) ? trim($_GET['flavor']) : '';
+$selectedIceCream = isset($_GET['name']) ? trim($_GET['name']) : '';
 $quantity = 1;
 $phone = '';
 $error = '';
-
 $price = 0;
 
-if (isset($_GET['price'])) {
-    $price = floatval($_GET['price']);
+$items = [];
+$result = $conn->query("SELECT name, price FROM icecream_items ORDER BY id ASC");
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $items[] = $row;
+        if ($selectedIceCream === $row['name']) {
+            $price = $row['price'];
+        }
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST['name'] ?? '');
-    $flavor = trim($_POST['flavor'] ?? '');
+    $selectedIceCream = trim($_POST['flavor'] ?? '');
     $quantity = intval($_POST['quantity'] ?? 0);
     $phone = trim($_POST['phone'] ?? '');
     $price = floatval($_POST['price'] ?? 0);
 
-    if ($name && $flavor && $quantity > 0 && $phone) {
+    if ($name && $selectedIceCream && $quantity > 0 && $phone) {
         $_SESSION['order_price'] = $price;
         $_SESSION['order_name'] = $name;
-        $_SESSION['order_flavor'] = $flavor;
+        $_SESSION['order_flavor'] = $selectedIceCream;
         $_SESSION['order_quantity'] = $quantity;
         $_SESSION['order_phone'] = $phone;
         header("Location: payment.php");
@@ -158,20 +164,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <label for="phone">Phone Number:</label>
       <input type="text" name="phone" id="phone" value="<?= htmlspecialchars($phone) ?>" required />
 
-      <label for="flavor">Choose a Flavor:</label>
-      <select name="flavor" id="flavor" required>
-        <option value="" disabled <?= $flavor === '' ? 'selected' : '' ?>>-- Select a Flavor --</option>
-        <?php
-          if ($flavor !== '') {
-              echo '<option value="' . htmlspecialchars($flavor) . '" selected>' . htmlspecialchars($flavor) . '</option>';
-          }
-        ?>
+      <label for="flavor">Choose an Ice Cream:</label>
+      <select name="flavor" id="flavor" required onchange="updatePrice(this.value)">
+        <option value="" disabled <?= $selectedIceCream === '' ? 'selected' : '' ?>>-- Select an Ice Cream --</option>
+        <?php foreach ($items as $item): ?>
+          <option value="<?= htmlspecialchars($item['name']) ?>" <?= $item['name'] === $selectedIceCream ? 'selected' : '' ?>>
+            <?= htmlspecialchars($item['name']) ?> (Rs. <?= $item['price'] ?>)
+          </option>
+        <?php endforeach; ?>
       </select>
 
       <label for="quantity">Quantity:</label>
       <input type="number" name="quantity" id="quantity" value="<?= htmlspecialchars($quantity) ?>" min="1" required />
 
-      <input type="hidden" name="price" value="<?= htmlspecialchars($price) ?>" />
+      <input type="hidden" name="price" id="price" value="<?= htmlspecialchars($price) ?>" />
 
       <button type="submit" class="btn-proceed">Proceed to Payment</button>
     </form>
@@ -179,5 +185,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <a href="index.php" class="btn-home">Back to Home</a>
+
+  <script>
+    const priceMap = <?= json_encode(array_column($items, 'price', 'name')) ?>;
+    function updatePrice(flavorName) {
+      document.getElementById('price').value = priceMap[flavorName] || 0;
+    }
+  </script>
 </body>
 </html>
