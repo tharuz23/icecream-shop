@@ -94,8 +94,8 @@ if (!$result) {
     <div class="menu">
       <?php
         while ($row = $result->fetch_assoc()) {
-          echo '<div class="item">' . htmlspecialchars($row['flavor']) . '<br>Rs. ' . htmlspecialchars($row['price']) . '<br>';
-          echo '<a href="order.php?flavor=' . urlencode($row['flavor']) . '&price=' . $row['price'] . '">Order Now</a></div>';
+          echo '<div class="item">' . htmlspecialchars($row['name']) . '<br>Rs. ' . htmlspecialchars($row['price']) . '<br>';
+          echo '<a href="order.php?name=' . urlencode($row['name']) . '&price=' . $row['price'] . '">Order Now</a></div>';
         }
       ?>
     </div>
