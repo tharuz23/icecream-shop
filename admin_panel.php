@@ -17,6 +17,12 @@ $incompleteOrderCount = 0;
 if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
     $incompleteOrderCount = $row['incomplete_orders'];
 }
+
+$feedbackCountResult = $conn->query("SELECT COUNT(*) AS new_feedback FROM messages WHERE is_read = 0");
+$newFeedbackCount = 0;
+if ($feedbackCountResult && $row = $feedbackCountResult->fetch_assoc()) {
+    $newFeedbackCount = $row['new_feedback'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -53,48 +59,19 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             background-color: #ff69b4;
             border: none;
             color: white;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
         }
         .btn-primary:hover {
             background-color: #d6336c;
-            color: white;
-            text-decoration: none;
         }
         .btn-danger {
             background-color: #ff6f61;
             border: none;
             color: white;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
         }
         .btn-danger:hover {
             background-color: #e65c50;
-            color: white;
-            text-decoration: none;
         }
-        .btn-view-orders,
-        .btn-view-feedback {
-            background-color: #ff9f80;
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.5);
-            transition: background-color 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin-right: 10px;
-        }
-        .btn-view-orders:hover,
-        .btn-view-feedback:hover {
-            background-color: #e68463 !important;
-            color: #fff;
-            text-decoration: none;
-            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.7);
-        }
-        .btn-add-item {
+        .btn-view-orders, .btn-add-item {
             background-color: #ff9f80;
             border: none;
             color: #fff;
@@ -107,11 +84,9 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             display: inline-block;
             font-size: 1.05rem;
         }
-        .btn-add-item:hover {
+        .btn-view-orders:hover, .btn-add-item:hover {
             background-color: #e68463 !important;
             color: #fff;
-            text-decoration: none;
-            box-shadow: 0 4px 10px rgba(230, 132, 99, 0.7);
         }
         .logout-btn {
             position: fixed;
@@ -126,14 +101,15 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             padding: 12px 25px;
             font-size: 1rem;
             z-index: 1050;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
         }
         .logout-btn:hover {
             background-color: #e65c50;
-            color: #fff;
         }
         a {
+            color: inherit;
+            text-decoration: none;
+        }
+        a:hover {
             color: inherit;
             text-decoration: none;
         }
@@ -148,8 +124,13 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
   <div class="container mt-5">
     <h2 class="mb-4">Welcome, Admin!</h2>
 
-    <a href="admin_orders.php" class="btn btn-view-orders mb-4">View All Orders (<?= $incompleteOrderCount; ?>)</a>
-    <a href="view_feedback.php" class="btn btn-view-feedback mb-4">View Feedback</a>
+    <a href="admin_orders.php" class="btn btn-view-orders mb-3 me-3">
+      View All Orders (<?= $incompleteOrderCount; ?>)
+    </a>
+
+    <a href="view_feedback.php" class="btn btn-view-orders mb-4">
+      View Feedback (<?= $newFeedbackCount; ?>)
+    </a>
 
     <h3 class="mt-4">Ice Cream Items</h3>
 
@@ -185,7 +166,5 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
 
     <a href="logout.php" class="btn logout-btn">Logout</a>
   </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
