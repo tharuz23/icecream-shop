@@ -1,16 +1,13 @@
 <?php
 session_start();
-
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header('Location: admin_login.php');
     exit();
 }
-
 include 'db.php';
 
 $sql = "SELECT * FROM icecream_items";
 $result = $conn->query($sql);
-
 if (!$result) {
     die("SQL Error: " . $conn->error);
 }
@@ -76,7 +73,8 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             color: white;
             text-decoration: none;
         }
-        .btn-view-orders {
+        .btn-view-orders,
+        .btn-view-feedback {
             background-color: #ff9f80;
             border: none;
             color: #fff;
@@ -87,10 +85,10 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             transition: background-color 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            margin-right: 10px;
         }
         .btn-view-orders:hover,
-        .btn-view-orders:focus,
-        .btn-view-orders:active {
+        .btn-view-feedback:hover {
             background-color: #e68463 !important;
             color: #fff;
             text-decoration: none;
@@ -109,9 +107,7 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             display: inline-block;
             font-size: 1.05rem;
         }
-        .btn-add-item:hover,
-        .btn-add-item:focus,
-        .btn-add-item:active {
+        .btn-add-item:hover {
             background-color: #e68463 !important;
             color: #fff;
             text-decoration: none;
@@ -133,19 +129,11 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
             transition: background-color 0.3s ease;
             text-decoration: none;
         }
-        .logout-btn:hover,
-        .logout-btn:focus,
-        .logout-btn:active {
+        .logout-btn:hover {
             background-color: #e65c50;
             color: #fff;
-            text-decoration: none;
         }
         a {
-            color: inherit;
-            text-decoration: none;
-            transition: none;
-        }
-        a:hover, a:focus, a:active {
             color: inherit;
             text-decoration: none;
         }
@@ -160,9 +148,8 @@ if ($orderCountResult && $row = $orderCountResult->fetch_assoc()) {
   <div class="container mt-5">
     <h2 class="mb-4">Welcome, Admin!</h2>
 
-    <a href="admin_orders.php" class="btn btn-view-orders mb-4">
-      View All Orders (<?= $incompleteOrderCount; ?>)
-    </a>
+    <a href="admin_orders.php" class="btn btn-view-orders mb-4">View All Orders (<?= $incompleteOrderCount; ?>)</a>
+    <a href="view_feedback.php" class="btn btn-view-feedback mb-4">View Feedback</a>
 
     <h3 class="mt-4">Ice Cream Items</h3>
 
