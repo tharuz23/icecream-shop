@@ -20,11 +20,16 @@
       align-items: center;
     }
     .message-box {
-      background-color: rgba(255, 248, 240, 0.95);
+      background-color: rgba(255, 248, 240, 0.85);
       padding: 40px 60px;
       border-radius: 20px;
       text-align: center;
       box-shadow: 0 12px 25px rgba(214, 51, 108, 0.3);
+    }
+    .logo {
+      width: 90px;
+      height: auto;
+      margin-bottom: 20px;
     }
     h2 {
       color: #d6336c;
@@ -58,6 +63,7 @@
 </head>
 <body>
   <div class="message-box">
+    <img src="logo.jpg.jpg" alt="ScoopNest Logo" class="logo" />
     <h2>Thank you for your feedback!</h2>
     <img src="fb.jpg.webp" class="feedback-image" alt="Feedback Art" />
     <button onclick="window.location.href='index.php'">Back to Home</button>
