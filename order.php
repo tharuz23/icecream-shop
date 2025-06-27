@@ -3,40 +3,80 @@ session_start();
 include 'db.php';
 
 $name = '';
-$selectedIceCream = isset($_GET['name']) ? trim($_GET['name']) : '';
-$quantity = 1;
 $phone = '';
 $error = '';
 $price = 0;
+$quantity = 1;
+
+$fromCart = isset($_GET['from_cart']) && $_GET['from_cart'] == '1';
 
 $items = [];
 $result = $conn->query("SELECT name, price FROM icecream_items ORDER BY id ASC");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $items[] = $row;
-        if ($selectedIceCream === $row['name']) {
-            $price = $row['price'];
+    }
+}
+
+$selectedIceCream = '';
+if (!$fromCart) {
+    $selectedIceCream = isset($_GET['name']) ? trim($_GET['name']) : '';
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $selectedIceCream = trim($_POST['flavor'] ?? '');
+    }
+}
+
+$totalPrice = 0;
+if ($fromCart) {
+    if (isset($_SESSION['cart']) && is_array($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
+        foreach ($_SESSION['cart'] as $cartItem) {
+            $totalPrice += $cartItem['price'] * $cartItem['quantity'];
         }
     }
+} else {
+    foreach ($items as $item) {
+        if ($item['name'] === $selectedIceCream) {
+            $price = $item['price'];
+            break;
+        }
+    }
+    $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
+    $totalPrice = $price * $quantity;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST['name'] ?? '');
-    $selectedIceCream = trim($_POST['flavor'] ?? '');
-    $quantity = intval($_POST['quantity'] ?? 0);
     $phone = trim($_POST['phone'] ?? '');
-    $price = floatval($_POST['price'] ?? 0);
 
-    if ($name && $selectedIceCream && $quantity > 0 && $phone) {
-        $_SESSION['order_price'] = $price;
-        $_SESSION['order_name'] = $name;
-        $_SESSION['order_flavor'] = $selectedIceCream;
-        $_SESSION['order_quantity'] = $quantity;
-        $_SESSION['order_phone'] = $phone;
-        header("Location: payment.php");
-        exit();
+    if (!$fromCart) {
+        $quantity = intval($_POST['quantity'] ?? 0);
+        $selectedIceCream = trim($_POST['flavor'] ?? '');
+        $price = floatval($_POST['price'] ?? 0);
+
+        if ($name && $selectedIceCream && $quantity > 0 && $phone) {
+            $_SESSION['order_price'] = $price;
+            $_SESSION['order_name'] = $name;
+            $_SESSION['order_flavor'] = $selectedIceCream;
+            $_SESSION['order_quantity'] = $quantity;
+            $_SESSION['order_phone'] = $phone;
+            unset($_SESSION['order_cart']);
+            header("Location: payment_method.php");
+            exit();
+        } else {
+            $error = "Please fill in all the fields.";
+        }
     } else {
-        $error = "Please fill in all the fields.";
+        if ($name && $phone) {
+            $_SESSION['order_cart'] = $_SESSION['cart'];
+            $_SESSION['order_name'] = $name;
+            $_SESSION['order_phone'] = $phone;
+            $_SESSION['order_price'] = $totalPrice;
+            unset($_SESSION['order_flavor'], $_SESSION['order_quantity']);
+            header("Location: payment_method.php");
+            exit();
+        } else {
+            $error = "Please enter your name and phone number.";
+        }
     }
 }
 ?>
@@ -157,27 +197,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php if ($error): ?>
       <div class="error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
-    <form action="order.php" method="POST">
+    <form action="order.php<?= $fromCart ? '?from_cart=1' : '' ?>" method="POST">
       <label for="name">Your Name:</label>
       <input type="text" name="name" id="name" value="<?= htmlspecialchars($name) ?>" required />
 
       <label for="phone">Phone Number:</label>
       <input type="text" name="phone" id="phone" value="<?= htmlspecialchars($phone) ?>" required />
 
-      <label for="flavor">Choose an Ice Cream:</label>
-      <select name="flavor" id="flavor" required onchange="updatePrice(this.value)">
-        <option value="" disabled <?= $selectedIceCream === '' ? 'selected' : '' ?>>-- Select an Ice Cream --</option>
-        <?php foreach ($items as $item): ?>
-          <option value="<?= htmlspecialchars($item['name']) ?>" <?= $item['name'] === $selectedIceCream ? 'selected' : '' ?>>
-            <?= htmlspecialchars($item['name']) ?> (Rs. <?= $item['price'] ?>)
-          </option>
-        <?php endforeach; ?>
-      </select>
+      <?php if (!$fromCart): ?>
+        <label for="flavor">Choose an Ice Cream:</label>
+        <select name="flavor" id="flavor" required onchange="updatePrice(this.value)">
+          <option value="" disabled <?= $selectedIceCream === '' ? 'selected' : '' ?>>-- Select an Ice Cream --</option>
+          <?php foreach ($items as $item): ?>
+            <option value="<?= htmlspecialchars($item['name']) ?>" <?= $item['name'] === $selectedIceCream ? 'selected' : '' ?>>
+              <?= htmlspecialchars($item['name']) ?> (Rs. <?= $item['price'] ?>)
+            </option>
+          <?php endforeach; ?>
+        </select>
 
-      <label for="quantity">Quantity:</label>
-      <input type="number" name="quantity" id="quantity" value="<?= htmlspecialchars($quantity) ?>" min="1" required />
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" value="<?= htmlspecialchars($quantity) ?>" min="1" required />
 
-      <input type="hidden" name="price" id="price" value="<?= htmlspecialchars($price) ?>" />
+        <input type="hidden" name="price" id="price" value="<?= htmlspecialchars($price) ?>" />
+      <?php else: ?>
+        <p style="margin-top: 15px; font-weight: 600; color: #d6336c;">Total Price for Cart: Rs. <?= number_format($totalPrice, 2) ?></p>
+      <?php endif; ?>
 
       <button type="submit" class="btn-proceed">Proceed to Payment</button>
     </form>
